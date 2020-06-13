@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://dozer.sourceforge.net"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <!-- reference mapping-->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.project.Reference</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.project.ReferenceSummary</class-b>
+    </mapping>
+
+    <!-- lab head mapping -->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.project.LabHead</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.user.ContactSummary</class-b>
+    </mapping>
+
+    <!-- user mapping-->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.user.User</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.user.UserSummary</class-b>
+    </mapping>
+
+    <!-- project param mapping -->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.project.ProjectCvParam</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary</class-b>
+        <field>
+            <a>cvParam.cvLabel</a>
+            <b>cvLabel</b>
+        </field>
+        <field>
+            <a>cvParam.accession</a>
+            <b>accession</b>
+        </field>
+        <field>
+            <a>cvParam.name</a>
+            <b>name</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.project.ProjectUserParam</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.param.ParamSummary</class-b>
+    </mapping>
+
+    <!-- project ptm mapping -->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.project.ProjectPTM</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary</class-b>
+        <field>
+            <a>cvParam.cvLabel</a>
+            <b>cvLabel</b>
+        </field>
+        <field>
+            <a>cvParam.accession</a>
+            <b>accession</b>
+        </field>
+        <field>
+            <a>cvParam.name</a>
+            <b>name</b>
+        </field>
+    </mapping>
+
+    <!-- project file mapping-->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.file.ProjectFile</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.file.FileSummary</class-b>
+    </mapping>
+
+    <!-- assay mapping-->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.Assay</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.assay.AssaySummary</class-b>
+        <field relationship-type="cumulative">
+            <a>assayGroupCvParams</a>
+            <b>params</b>
+            <a-hint>uk.ac.ebi.pride.archive.repo.models.assay.AssayGroupCvParam,
+                uk.ac.ebi.pride.archive.repo.models.assay.AssayGroupUserParam
+            </a-hint>
+            <b-hint>
+                uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary,uk.ac.ebi.pride.archive.repo.models.param.ParamSummary
+            </b-hint>
+        </field>
+        <field relationship-type="cumulative">
+            <a>assayGroupUserParams</a>
+            <b>params</b>
+            <a-hint>uk.ac.ebi.pride.archive.repo.models.assay.AssayGroupCvParam,
+                uk.ac.ebi.pride.archive.repo.models.assay.AssayGroupUserParam
+            </a-hint>
+            <b-hint>
+                uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary,uk.ac.ebi.pride.archive.repo.models.param.ParamSummary
+            </b-hint>
+        </field>
+    </mapping>
+
+    <!-- assay param mapping-->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.AssayCvParam</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary</class-b>
+        <field>
+            <a>cvParam.cvLabel</a>
+            <b>cvLabel</b>
+        </field>
+        <field>
+            <a>cvParam.accession</a>
+            <b>accession</b>
+        </field>
+        <field>
+            <a>cvParam.name</a>
+            <b>name</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.AssayUserParam</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.param.ParamSummary</class-b>
+    </mapping>
+
+    <!-- software mapping -->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.software.Software</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.assay.software.SoftwareSummary</class-b>
+        <field relationship-type="cumulative">
+            <a>softwareCvParams</a>
+            <b>params</b>
+            <a-hint>uk.ac.ebi.pride.archive.repo.models.assay.software.SoftwareCvParam,
+                uk.ac.ebi.pride.archive.repo.models.assay.software.SoftwareUserParam
+            </a-hint>
+            <b-hint>
+                uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary,uk.ac.ebi.pride.archive.repo.models.param.ParamSummary
+            </b-hint>
+        </field>
+        <field relationship-type="cumulative">
+            <a>softwareUserParams</a>
+            <b>params</b>
+            <a-hint>uk.ac.ebi.pride.archive.repo.models.assay.software.SoftwareCvParam,
+                uk.ac.ebi.pride.archive.repo.models.assay.software.SoftwareUserParam
+            </a-hint>
+            <b-hint>
+                uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary,uk.ac.ebi.pride.archive.repo.models.param.ParamSummary
+            </b-hint>
+        </field>
+    </mapping>
+
+    <!-- software param mapping -->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.software.SoftwareCvParam</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary</class-b>
+        <field>
+            <a>cvParam.cvLabel</a>
+            <b>cvLabel</b>
+        </field>
+        <field>
+            <a>cvParam.accession</a>
+            <b>accession</b>
+        </field>
+        <field>
+            <a>cvParam.name</a>
+            <b>name</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.software.SoftwareUserParam</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.param.ParamSummary</class-b>
+    </mapping>
+
+    <!-- instrument mapping-->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.instrument.Instrument</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.assay.instrument.InstrumentSummary</class-b>
+        <field>
+            <a>cvParam.id</a>
+            <b>model.id</b>
+        </field>
+        <field>
+            <a>cvParam.cvLabel</a>
+            <b>model.cvLabel</b>
+        </field>
+        <field>
+            <a>cvParam.accession</a>
+            <b>model.accession</b>
+        </field>
+        <field>
+            <a>cvParam.name</a>
+            <b>model.name</b>
+        </field>
+        <field>
+            <a>value</a>
+            <b>model.value</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.instrument.InstrumentComponent</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.assay.instrument.InstrumentComponentSummary</class-b>
+        <field relationship-type="cumulative">
+            <a>instrumentComponentCvParams</a>
+            <b>params</b>
+            <a-hint>uk.ac.ebi.pride.archive.repo.models.assay.instrument.InstrumentComponentCvParam,
+                uk.ac.ebi.pride.archive.repo.models.assay.instrument.InstrumentComponentUserParam
+            </a-hint>
+            <b-hint>
+                uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary,uk.ac.ebi.pride.archive.repo.models.param.ParamSummary
+            </b-hint>
+        </field>
+        <field relationship-type="cumulative">
+            <a>instrumentComponentUserParams</a>
+            <b>params</b>
+            <a-hint>uk.ac.ebi.pride.archive.repo.models.assay.instrument.InstrumentComponentCvParam,
+                uk.ac.ebi.pride.archive.repo.models.assay.instrument.InstrumentComponentUserParam
+            </a-hint>
+            <b-hint>
+                uk.ac.ebi.pride.archive.repo.models.param.CvParamSummary,uk.ac.ebi.pride.archive.repo.models.param.ParamSummary
+            </b-hint>
+        </field>
+    </mapping>
+
+    <!-- contact mapping-->
+    <mapping>
+        <class-a>uk.ac.ebi.pride.archive.repo.models.assay.Contact</class-a>
+        <class-b>uk.ac.ebi.pride.archive.repo.models.user.ContactSummary</class-b>
+    </mapping>
+</mappings>
