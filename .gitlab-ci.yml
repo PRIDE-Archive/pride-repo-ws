@@ -22,7 +22,7 @@ before_script:
     - chmod -R 700 config
     - (rm src/main/resources/application.properties || true)
     - export HOSTNAME=$HOSTNAME_BCKUP
-    - .mvn clean package
+    - mvn clean package
     - DEPLOY_DIR=$(date +"%Y%m%d_%H%M%S")
     - mkdir $DEPLOY_DIR
     - cp -r target/*jar config $DEPLOY_DIR/
