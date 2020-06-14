@@ -68,8 +68,7 @@ public class AssayService {
     }
   }
 
-  public Collection<AssaySummary> findAllByProjectAccession(String projectAccession)
-      throws AssayAccessException {
+  public Collection<AssaySummary> findAllByProjectAccession(String projectAccession) throws AssayAccessException {
     Assert.notNull(projectAccession, "Project accession cannot be null");
 
     // get the project
@@ -96,8 +95,7 @@ public class AssayService {
     }
   }
 
-  public Page<AssaySummary> findAllByProjectAccession(String projectAccession, Pageable pageable)
-      throws AssayAccessException {
+  public Page<AssaySummary> findAllByProjectAccession(String projectAccession, Pageable pageable) throws AssayAccessException {
     Assert.notNull(projectAccession, "Project accession cannot be null");
 
     // get the project
