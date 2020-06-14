@@ -1,0 +1,33 @@
+server:
+  port: $port
+  servlet:
+    contextPath: $contextPath
+
+management.endpoints.web.exposure.include: $actuator_include
+management.endpoints.web.exposure.exclude: $actuator_exclude
+
+logging:
+  file.path: './logs_${HOSTNAME}/'
+
+spring:
+  datasource:
+    # Oracle Database
+    oracle:
+      jdbcUrl: $oracle_jdbc_url
+      username: $oracle_username
+      password: $oracle_password
+      driver-class-name: oracle.jdbc.OracleDriver
+    maxPoolSize: $oracle_maxPoolSize
+    idleTimeOut: $oracle_idleTimeOut
+
+security:
+  header-name: $api_key_header
+  api-key: $api_key
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/api-docs'
+  swagger-ui:
+    path: '/swagger-ui'
+    tagsSorter: alpha
