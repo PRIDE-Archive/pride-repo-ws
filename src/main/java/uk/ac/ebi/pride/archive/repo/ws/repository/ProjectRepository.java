@@ -30,6 +30,9 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
   @Query("select p.accession from Project p order by p.submissionDate")
   List<String> findAllAccessions();
 
+  @Query("select p.accession from Project p where p.publicProject=true order by p.submissionDate")
+  List<String> findAllPublicAccessions();
+
   @Query("select p.accession from Project p where p.changed = 1")
   List<String> findAllAccessionsChanged();
 

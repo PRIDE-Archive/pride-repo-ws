@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
 import uk.ac.ebi.pride.archive.repo.models.project.ProjectSummary;
 import uk.ac.ebi.pride.archive.repo.util.ObjectMapper;
@@ -56,7 +57,15 @@ public class ProjectService {
         return projectRepository.count();
     }
 
-    public Collection<ProjectSummary> findAllBySubmitterId(Long submitterId) throws ProjectAccessException {
+    public List<String> getAllAccessions() throws ProjectAccessException {
+        return projectRepository.findAllAccessions();
+    }
+
+    public List<String> getAllPublicAccessions() throws ProjectAccessException {
+        return projectRepository.findAllPublicAccessions();
+    }
+
+    public Collection<ProjectSummary> findBySubmitterId(Long submitterId) throws ProjectAccessException {
         Assert.notNull(submitterId, "Submitter id cannot be null");
         try {
             Collection<ProjectSummary> projectSummaries = new LinkedList<>();
@@ -87,7 +96,7 @@ public class ProjectService {
     }
 
 
-    public List<ProjectSummary> findFilteredBySubmitterIdAndIsPublic(Long submitterId, Boolean isPublic) {
+    public List<ProjectSummary> findBySubmitterIdAndIsPublic(Long submitterId, Boolean isPublic) {
         Assert.notNull(submitterId, "submitterId cannot be null");
         Assert.notNull(isPublic, "isPublic cannot be null");
 
@@ -102,7 +111,7 @@ public class ProjectService {
     }
 
 
-    public List<ProjectSummary> findFilteredByReviewer(String user_aap_ref) {
+    public List<ProjectSummary> findByReviewer(String user_aap_ref) {
         Assert.notNull(user_aap_ref, "user_aap_ref cannot be null");
         try {
             List<Project> projects = projectRepository.findFilteredByReviewer(user_aap_ref);

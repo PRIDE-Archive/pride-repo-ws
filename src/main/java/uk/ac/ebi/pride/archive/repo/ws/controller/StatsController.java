@@ -24,7 +24,7 @@ public class StatsController {
         this.statisticsService = statisticsService;
     }
 
-    @GetMapping("/latest-statistics")
+    @GetMapping("/getLatestStatistics")
     public StatisticsSummary getLatestStatistics() {
         return statisticsService.getLatestStatistics();
     }

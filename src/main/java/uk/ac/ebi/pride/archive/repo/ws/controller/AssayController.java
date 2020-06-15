@@ -31,27 +31,27 @@ public class AssayController {
         this.assayService = assayService;
     }
 
-    @GetMapping("/{assayId}")
+    @GetMapping("/findById/{assayId}")
     public AssaySummary findById(@Valid @PathVariable Long assayId) throws AssayAccessException {
         return assayService.findById(assayId);
     }
 
-    @GetMapping("/accession/{assayAccession}")
+    @GetMapping("/findByAccession/{assayAccession}")
     public AssaySummary findByAccession(@Valid @PathVariable String assayAccession) throws AssayAccessException {
         return assayService.findByAccession(assayAccession);
     }
 
-    @GetMapping("/by-project-id/{projectId}")
-    public Collection<FileSummary> findAllByProjectId(@Valid @PathVariable Long projectId) throws FileAccessException {
+    @GetMapping("/findAllByProjectId/{projectId}")
+    public Collection<AssaySummary> findAllByProjectId(@Valid @PathVariable Long projectId) throws AssayAccessException {
         return assayService.findAllByProjectId(projectId);
     }
 
-    @GetMapping("/by-project-accession/{projectAccession}")
+    @GetMapping("/findAllByProjectAccession/{projectAccession}")
     public Collection<AssaySummary> findAllByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
         return assayService.findAllByProjectAccession(projectAccession);
     }
 
-    @GetMapping("/count/project/{projectAccession}")
+    @GetMapping("/countByProjectAccession/{projectAccession}")
     public Long countByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
         return assayService.countByProjectAccession(projectAccession);
     }

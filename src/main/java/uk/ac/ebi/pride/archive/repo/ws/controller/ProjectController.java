@@ -32,7 +32,7 @@ public class ProjectController {
 //        return projectService.findAll();
 //    }
 
-    @GetMapping("/{id}")
+    @GetMapping("/findById/{id}")
     public ProjectSummary findById(@Valid @PathVariable Long id) throws ProjectAccessException {
         return projectService.findById(id);
     }
@@ -42,43 +42,43 @@ public class ProjectController {
         return projectService.count();
     }
 
-    @GetMapping("/accessions")
+    @GetMapping("/getAllAccessions")
     public List<String> getAllAccessions() throws ProjectAccessException {
         return projectService.getAllAccessions();
     }
 
-    @GetMapping("/accessions/public")
-    public List<String> getAllAccessions() throws ProjectAccessException {
-        return projectService.getAllAccessions(true);
+    @GetMapping("/getAllPublicAccessions")
+    public List<String> getAllPublicAccessions() throws ProjectAccessException {
+        return projectService.getAllPublicAccessions();
     }
 
-    @GetMapping("/by-accession/{accession}")
+    @GetMapping("/findByAccession/{accession}")
     public ProjectSummary findByAccession(@Valid @PathVariable String accession) throws ProjectAccessException {
         return projectService.findByAccession(accession);
     }
 
-    @GetMapping("/submitter-projects")
-    public List<ProjectSummary> findFilteredBySubmitterIdAndIsPublic(@Valid @RequestParam Long submitterId,
+    @GetMapping("/findBySubmitterIdAndIsPublic")
+    public List<ProjectSummary> findBySubmitterIdAndIsPublic(@Valid @RequestParam Long submitterId,
                                                                      @Valid @RequestParam Boolean isPublic) {
-        return projectService.findFilteredBySubmitterIdAndIsPublic(submitterId, isPublic);
+        return projectService.findBySubmitterIdAndIsPublic(submitterId, isPublic);
     }
 
-    @GetMapping("/submitter-projects/{submitterId}")
-    public Collection<ProjectSummary> findAllBySubmitterId(@Valid @PathVariable Long submitterId) throws ProjectAccessException {
-        return projectService.findAllBySubmitterId(submitterId);
+    @GetMapping("/findBySubmitterId/{submitterId}")
+    public Collection<ProjectSummary> findBySubmitterId(@Valid @PathVariable Long submitterId) throws ProjectAccessException {
+        return projectService.findBySubmitterId(submitterId);
     }
 
-    @GetMapping("/reviewer-projects/{user_aap_ref}")
-    public List<ProjectSummary> findFilteredByReviewer(@Valid @PathVariable String user_aap_ref) {
-       return projectService.findFilteredByReviewer(user_aap_ref);
+    @GetMapping("/findByReviewer/{user_aap_ref}")
+    public List<ProjectSummary> findByReviewer(@Valid @PathVariable String user_aap_ref) {
+       return projectService.findByReviewer(user_aap_ref);
     }
 
-    @GetMapping("/accessions-changed")
+    @GetMapping("/findAllAccessionsChanged")
     public List<String> findAllAccessionsChanged() {
         return projectService.findAllAccessionsChanged();
     }
 
-    @GetMapping("/monthly-submissions")
+    @GetMapping("/findMonthlySubmissions")
     public List<List<String>> findMonthlySubmissions() {
         return projectService.findMonthlySubmissions();
     }
