@@ -17,7 +17,7 @@ metadata:
   labels:
     app: $app_name
 spec:
-  replicas: 1
+  replicas: $k8s_replicas
   selector:
     matchLabels:
       app: $app_name
