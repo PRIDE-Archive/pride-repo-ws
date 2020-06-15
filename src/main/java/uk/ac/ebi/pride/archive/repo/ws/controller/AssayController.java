@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uk.ac.ebi.pride.archive.repo.models.assay.Assay;
 import uk.ac.ebi.pride.archive.repo.models.assay.AssaySummary;
-import uk.ac.ebi.pride.archive.repo.models.file.FileSummary;
 import uk.ac.ebi.pride.archive.repo.ws.exception.AssayAccessException;
-import uk.ac.ebi.pride.archive.repo.ws.exception.FileAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.AssayService;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Validated
@@ -29,6 +30,26 @@ public class AssayController {
     @Autowired
     public AssayController(AssayService assayService) {
         this.assayService = assayService;
+    }
+
+    @GetMapping("/findById/{assayId}")
+    public Optional<Assay> findById(@Valid @PathVariable Long assayId) throws AssayAccessException {
+        return assayService.findById(assayId);
+    }
+
+    @GetMapping("/findByAccession/{assayAccession}")
+    public Assay findByAccession(@Valid @PathVariable String assayAccession) throws AssayAccessException {
+        return assayService.findByAccession(assayAccession);
+    }
+
+    @GetMapping("/findAllByProjectId/{projectId}")
+    public List<Assay> findAllByProjectId(@Valid @PathVariable Long projectId) throws AssayAccessException {
+        return assayService.findAllByProjectId(projectId);
+    }
+
+    @GetMapping("/findAllByProjectAccession/{projectAccession}")
+    public List<Assay> findAllByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
+        return assayService.findAllByProjectAccession(projectAccession);
     }
 
     @GetMapping("/findByIdSummary/{assayId}")

@@ -42,6 +42,56 @@ public class AssayService {
         this.projectRepository = projectRepository;
     }
 
+    public Optional<Assay> findById(Long assayId) throws AssayAccessException {
+        Assert.notNull(assayId, "Assay id cannot be empty");
+        try {
+            return assayRepository.findById(assayId);
+        } catch (Exception ex) {
+            String msg = "Failed to find assay by id: " + assayId;
+            log.error(msg, ex);
+            throw new AssayAccessException(msg, ex);
+        }
+    }
+
+    public Assay findByAccession(String assayAccession) throws AssayAccessException {
+        Assert.notNull(assayAccession, "Assay accession cannot be empty");
+        try {
+            return assayRepository.findByAccession(assayAccession);
+        } catch (Exception ex) {
+            String msg = "Failed to find assay by accession: " + assayAccession;
+            log.error(msg, ex);
+            throw new AssayAccessException(msg, ex, null, assayAccession);
+        }
+    }
+
+    public List<Assay> findAllByProjectId(Long projectId) throws AssayAccessException {
+        Assert.notNull(projectId, "Project accession cannot be null");
+        try {
+            return assayRepository.findAllByProjectId(projectId);
+        } catch (
+                Exception ex) {
+            String msg = "Failed to find assays by projectId: " + projectId;
+            log.error(msg, ex);
+            throw new AssayAccessException(msg, ex);
+        }
+    }
+
+    public List<Assay> findAllByProjectAccession(String projectAccession) throws AssayAccessException {
+        Assert.notNull(projectAccession, "Project accession cannot be null");
+        try {
+            List<Assay> assays = new LinkedList<>();
+            Project project = projectRepository.findByAccession(projectAccession);
+            if (project != null) {
+               return assayRepository.findAllByProjectId(project.getId());
+            }
+            return assays;
+        } catch (Exception ex) {
+            String msg = "Failed to find assays by project accession: " + projectAccession;
+            log.error(msg, ex);
+            throw new AssayAccessException(msg, ex, projectAccession, null);
+        }
+    }
+
     public AssaySummary findByIdSummary(Long assayId) throws AssayAccessException {
         Assert.notNull(assayId, "Assay id cannot be empty");
 
