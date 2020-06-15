@@ -31,24 +31,24 @@ public class AssayController {
         this.assayService = assayService;
     }
 
-    @GetMapping("/findById/{assayId}")
-    public AssaySummary findById(@Valid @PathVariable Long assayId) throws AssayAccessException {
-        return assayService.findById(assayId);
+    @GetMapping("/findByIdSummary/{assayId}")
+    public AssaySummary findByIdSummary(@Valid @PathVariable Long assayId) throws AssayAccessException {
+        return assayService.findByIdSummary(assayId);
     }
 
-    @GetMapping("/findByAccession/{assayAccession}")
-    public AssaySummary findByAccession(@Valid @PathVariable String assayAccession) throws AssayAccessException {
-        return assayService.findByAccession(assayAccession);
+    @GetMapping("/findByAccessionSummary/{assayAccession}")
+    public AssaySummary findByAccessionSummary(@Valid @PathVariable String assayAccession) throws AssayAccessException {
+        return assayService.findByAccessionSummary(assayAccession);
     }
 
-    @GetMapping("/findAllByProjectId/{projectId}")
-    public Collection<AssaySummary> findAllByProjectId(@Valid @PathVariable Long projectId) throws AssayAccessException {
-        return assayService.findAllByProjectId(projectId);
+    @GetMapping("/findAllByProjectIdSummary/{projectId}")
+    public Collection<AssaySummary> findAllByProjectIdSummary(@Valid @PathVariable Long projectId) throws AssayAccessException {
+        return assayService.findAllByProjectIdSummary(projectId);
     }
 
-    @GetMapping("/findAllByProjectAccession/{projectAccession}")
-    public Collection<AssaySummary> findAllByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
-        return assayService.findAllByProjectAccession(projectAccession);
+    @GetMapping("/findAllByProjectAccessionSummary/{projectAccession}")
+    public Collection<AssaySummary> findAllByProjectAccessionSummary(@Valid @PathVariable String projectAccession) throws AssayAccessException {
+        return assayService.findAllByProjectAccessionSummary(projectAccession);
     }
 
     @GetMapping("/countByProjectAccession/{projectAccession}")

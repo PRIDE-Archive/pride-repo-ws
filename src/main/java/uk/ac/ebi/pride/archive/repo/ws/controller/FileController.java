@@ -26,29 +26,29 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/findById/{fileId}")
-    public FileSummary findById(@Valid @PathVariable Long fileId) throws FileAccessException {
-        return fileService.findById(fileId);
+    @GetMapping("/findByIdSummary/{fileId}")
+    public FileSummary findByIdSummary(@Valid @PathVariable Long fileId) throws FileAccessException {
+        return fileService.findByIdSummary(fileId);
     }
 
-    @GetMapping("/findAllByProjectId/{projectId}")
-    public Collection<FileSummary> findAllByProjectId(@Valid @PathVariable Long projectId) throws FileAccessException {
-        return fileService.findAllByProjectId(projectId);
+    @GetMapping("/findAllByProjectIdSummary/{projectId}")
+    public Collection<FileSummary> findAllByProjectIdSummary(@Valid @PathVariable Long projectId) throws FileAccessException {
+        return fileService.findAllByProjectIdSummary(projectId);
     }
 
-    @GetMapping("/findAllByProjectAccession/{projectAccession}")
-    public Collection<FileSummary> findAllByProjectAccession(@Valid @PathVariable String projectAccession) throws FileAccessException {
-        return fileService.findAllByProjectAccession(projectAccession);
+    @GetMapping("/findAllByProjectAccessionSummary/{projectAccession}")
+    public Collection<FileSummary> findAllByProjectAccessionSummary(@Valid @PathVariable String projectAccession) throws FileAccessException {
+        return fileService.findAllByProjectAccessionSummary(projectAccession);
     }
 
-    @GetMapping("/findAllByAssayId/{assayId}")
-    public Collection<FileSummary> findAllByAssayId(@Valid @PathVariable Long assayId) throws FileAccessException {
-        return fileService.findAllByAssayId(assayId);
+    @GetMapping("/findAllByAssayIdSummary/{assayId}")
+    public Collection<FileSummary> findAllByAssayIdSummary(@Valid @PathVariable Long assayId) throws FileAccessException {
+        return fileService.findAllByAssayIdSummary(assayId);
     }
 
-    @GetMapping("/findAllByAssayAccession/{assayAccession}")
-    public Collection<FileSummary> findAllByAssayAccession(@Valid @PathVariable String assayAccession) throws FileAccessException {
-        return fileService.findAllByAssayAccession(assayAccession);
+    @GetMapping("/findAllByAssayAccessionSummary/{assayAccession}")
+    public Collection<FileSummary> findAllByAssayAccessionSummary(@Valid @PathVariable String assayAccession) throws FileAccessException {
+        return fileService.findAllByAssayAccessionSummary(assayAccession);
     }
 
 }

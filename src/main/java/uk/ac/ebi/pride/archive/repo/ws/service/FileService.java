@@ -46,7 +46,7 @@ public class FileService {
     this.assayRepository = assayRepository;
   }
 
-  public FileSummary findById(Long fileId) throws FileAccessException {
+  public FileSummary findByIdSummary(Long fileId) throws FileAccessException {
     Assert.notNull(fileId, "File id cannot be empty");
 
     try {
@@ -60,7 +60,7 @@ public class FileService {
     }
   }
 
-  public Collection<FileSummary> findAllByProjectAccession(String projectAccession)
+  public Collection<FileSummary> findAllByProjectAccessionSummary(String projectAccession)
       throws FileAccessException {
     Assert.notNull(projectAccession, "Project accession cannot be null");
 
@@ -76,7 +76,7 @@ public class FileService {
     }
   }
 
-  public Collection<FileSummary> findAllByAssayAccession(String assayAccession)
+  public Collection<FileSummary> findAllByAssayAccessionSummary(String assayAccession)
       throws FileAccessException {
     Assert.notNull(assayAccession, "Assay accession cannot be null");
 
@@ -92,7 +92,7 @@ public class FileService {
     }
   }
 
-  public Collection<FileSummary> findAllByProjectId(Long projectId) throws FileAccessException {
+  public Collection<FileSummary> findAllByProjectIdSummary(Long projectId) throws FileAccessException {
     Assert.notNull(projectId, "Project id cannot be empty");
 
     try {
@@ -106,7 +106,7 @@ public class FileService {
     }
   }
   
-  public Collection<FileSummary> findAllByAssayId(Long assayId) throws FileAccessException {
+  public Collection<FileSummary> findAllByAssayIdSummary(Long assayId) throws FileAccessException {
     Assert.notNull(assayId, "Assay id cannot be empty");
 
     try {

@@ -40,7 +40,7 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public ProjectSummary findById(Long projectId) throws ProjectAccessException {
+    public ProjectSummary findByIdSummary(Long projectId) throws ProjectAccessException {
         Assert.notNull(projectId, "Project id cannot be null");
 
         try {
@@ -65,7 +65,7 @@ public class ProjectService {
         return projectRepository.findAllPublicAccessions();
     }
 
-    public Collection<ProjectSummary> findBySubmitterId(Long submitterId) throws ProjectAccessException {
+    public Collection<ProjectSummary> findBySubmitterIdSummary(Long submitterId) throws ProjectAccessException {
         Assert.notNull(submitterId, "Submitter id cannot be null");
         try {
             Collection<ProjectSummary> projectSummaries = new LinkedList<>();
@@ -82,7 +82,7 @@ public class ProjectService {
         }
     }
 
-    public ProjectSummary findByAccession(String accession) throws ProjectAccessException {
+    public ProjectSummary findByAccessionSummary(String accession) throws ProjectAccessException {
         Assert.notNull(accession, "Project accession cannot be null");
 
         try {
@@ -96,7 +96,7 @@ public class ProjectService {
     }
 
 
-    public List<ProjectSummary> findBySubmitterIdAndIsPublic(Long submitterId, Boolean isPublic) {
+    public List<ProjectSummary> findBySubmitterIdAndIsPublicSummary(Long submitterId, Boolean isPublic) {
         Assert.notNull(submitterId, "submitterId cannot be null");
         Assert.notNull(isPublic, "isPublic cannot be null");
 
@@ -111,7 +111,7 @@ public class ProjectService {
     }
 
 
-    public List<ProjectSummary> findByReviewer(String user_aap_ref) {
+    public List<ProjectSummary> findByReviewerSummary(String user_aap_ref) {
         Assert.notNull(user_aap_ref, "user_aap_ref cannot be null");
         try {
             List<Project> projects = projectRepository.findFilteredByReviewer(user_aap_ref);

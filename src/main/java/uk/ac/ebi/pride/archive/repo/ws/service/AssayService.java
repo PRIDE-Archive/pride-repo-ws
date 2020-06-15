@@ -42,7 +42,7 @@ public class AssayService {
         this.projectRepository = projectRepository;
     }
 
-    public AssaySummary findById(Long assayId) throws AssayAccessException {
+    public AssaySummary findByIdSummary(Long assayId) throws AssayAccessException {
         Assert.notNull(assayId, "Assay id cannot be empty");
 
         try {
@@ -55,7 +55,7 @@ public class AssayService {
         }
     }
 
-    public AssaySummary findByAccession(String assayAccession) throws AssayAccessException {
+    public AssaySummary findByAccessionSummary(String assayAccession) throws AssayAccessException {
         Assert.notNull(assayAccession, "Assay accession cannot be empty");
 
         try {
@@ -68,7 +68,7 @@ public class AssayService {
         }
     }
 
-    public Collection<AssaySummary> findAllByProjectId(Long projectId) throws AssayAccessException {
+    public Collection<AssaySummary> findAllByProjectIdSummary(Long projectId) throws AssayAccessException {
         Assert.notNull(projectId, "Project accession cannot be null");
         try {
             Collection<AssaySummary> assaySummaries = new LinkedList<>();
@@ -86,7 +86,7 @@ public class AssayService {
         }
     }
 
-    public Collection<AssaySummary> findAllByProjectAccession(String projectAccession) throws AssayAccessException {
+    public Collection<AssaySummary> findAllByProjectAccessionSummary(String projectAccession) throws AssayAccessException {
         Assert.notNull(projectAccession, "Project accession cannot be null");
 
         // get the project
