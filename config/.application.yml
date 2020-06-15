@@ -12,12 +12,14 @@ management:
     endpoint.health:
       show-details: ALWAYS
 
+
 spring.boot.admin.client:
   url: $springboot_admin_url
   username: $springboot_admin_user #this is for client to connect to server
   password: $springboot_admin_pwd
   instance:
-    service-base-url: $service_base_url
+#    service-base-url: $service_base_url
+    prefer-ip: true
 #    management-url: $service_base_url$contextPath
 #    service-url: $self_url
 #    metadata.user: #this is for server to be able to connect to client actuator APIs
