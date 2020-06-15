@@ -18,7 +18,7 @@ spring.boot.admin.client:
   password: $springboot_admin_pwd
   instance:
     service-base-url: $service_base_url
-    management-url: $service_base_url$contextPath
+#    management-url: $service_base_url$contextPath
 #    service-url: $self_url
 #    metadata.user: #this is for server to be able to connect to client actuator APIs
 #    name: ${spring.security.user.name}
