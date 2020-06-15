@@ -42,14 +42,19 @@ public class ProjectController {
         return projectService.count();
     }
 
-    @GetMapping("/accession/{accession}")
-    public ProjectSummary findByAccession(@Valid @PathVariable String accession) throws ProjectAccessException {
-        return projectService.findByAccession(accession);
+    @GetMapping("/accessions")
+    public List<String> getAllAccessions() throws ProjectAccessException {
+        return projectService.getAllAccessions();
     }
 
-    @GetMapping("/submitter-projects/{submitterId}")
-    public Collection<ProjectSummary> findAllBySubmitterId(@Valid @PathVariable Long submitterId) throws ProjectAccessException {
-        return projectService.findAllBySubmitterId(submitterId);
+    @GetMapping("/accessions/public")
+    public List<String> getAllAccessions() throws ProjectAccessException {
+        return projectService.getAllAccessions(true);
+    }
+
+    @GetMapping("/by-accession/{accession}")
+    public ProjectSummary findByAccession(@Valid @PathVariable String accession) throws ProjectAccessException {
+        return projectService.findByAccession(accession);
     }
 
     @GetMapping("/submitter-projects")
@@ -58,6 +63,10 @@ public class ProjectController {
         return projectService.findFilteredBySubmitterIdAndIsPublic(submitterId, isPublic);
     }
 
+    @GetMapping("/submitter-projects/{submitterId}")
+    public Collection<ProjectSummary> findAllBySubmitterId(@Valid @PathVariable Long submitterId) throws ProjectAccessException {
+        return projectService.findAllBySubmitterId(submitterId);
+    }
 
     @GetMapping("/reviewer-projects/{user_aap_ref}")
     public List<ProjectSummary> findFilteredByReviewer(@Valid @PathVariable String user_aap_ref) {

@@ -1,10 +1,21 @@
+spring.application.name: pride-repo-ws
+
 server:
   port: $port
   servlet:
     contextPath: $contextPath
 
-management.endpoints.web.exposure.include: $actuator_include
-management.endpoints.web.exposure.exclude: $actuator_exclude
+management.endpoints.web.exposure:
+  include: $actuator_include
+  exclude: $actuator_exclude
+
+spring.boot.admin.client:
+  url: $springboot_admin_url
+  username: $springboot_admin_user #this is for client to connect to server
+  password: $springboot_admin_pwd
+#  instance.metadata.user: #this is for server to be able to connect to client actuator APIs
+#    name: ${spring.security.user.name}
+#    password: ${spring.security.user.password}
 
 logging:
   file.path: './logs_${HOSTNAME}/'

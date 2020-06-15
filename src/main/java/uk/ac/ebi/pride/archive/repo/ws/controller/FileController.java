@@ -31,22 +31,22 @@ public class FileController {
         return fileService.findById(fileId);
     }
 
-    @GetMapping("/project")
-    public Collection<FileSummary> findAllByProjectId(@Valid @RequestParam Long projectId) throws FileAccessException {
+    @GetMapping("/by-project-id/{projectId}")
+    public Collection<FileSummary> findAllByProjectId(@Valid @PathVariable Long projectId) throws FileAccessException {
         return fileService.findAllByProjectId(projectId);
     }
 
-    @GetMapping("/project/{projectAccession}")
+    @GetMapping("/by-project-accession/{projectAccession}")
     public Collection<FileSummary> findAllByProjectAccession(@Valid @PathVariable String projectAccession) throws FileAccessException {
         return fileService.findAllByProjectAccession(projectAccession);
     }
 
-    @GetMapping("/assay")
-    public Collection<FileSummary> findAllByAssayId(@Valid @RequestParam Long assayId) throws FileAccessException {
+    @GetMapping("/by-assay-id/{assayId}")
+    public Collection<FileSummary> findAllByAssayId(@Valid @PathVariable Long assayId) throws FileAccessException {
         return fileService.findAllByAssayId(assayId);
     }
 
-    @GetMapping("/assay/{assayAccession}")
+    @GetMapping("/by-assay-accession/{assayAccession}")
     public Collection<FileSummary> findAllByAssayAccession(@Valid @PathVariable String assayAccession) throws FileAccessException {
         return fileService.findAllByAssayAccession(assayAccession);
     }

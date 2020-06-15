@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.ac.ebi.pride.archive.repo.models.assay.AssaySummary;
+import uk.ac.ebi.pride.archive.repo.models.file.FileSummary;
 import uk.ac.ebi.pride.archive.repo.ws.exception.AssayAccessException;
+import uk.ac.ebi.pride.archive.repo.ws.exception.FileAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.AssayService;
 
 import javax.validation.Valid;
@@ -39,12 +41,17 @@ public class AssayController {
         return assayService.findByAccession(assayAccession);
     }
 
-    @GetMapping("/project/{projectAccession}")
+    @GetMapping("/by-project-id/{projectId}")
+    public Collection<FileSummary> findAllByProjectId(@Valid @PathVariable Long projectId) throws FileAccessException {
+        return assayService.findAllByProjectId(projectId);
+    }
+
+    @GetMapping("/by-project-accession/{projectAccession}")
     public Collection<AssaySummary> findAllByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
         return assayService.findAllByProjectAccession(projectAccession);
     }
 
-    @GetMapping("/project/count/{projectAccession}")
+    @GetMapping("/count/project/{projectAccession}")
     public Long countByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
         return assayService.countByProjectAccession(projectAccession);
     }
