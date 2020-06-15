@@ -1,4 +1,4 @@
-spring.application.name: pride-repo-ws
+spring.application.name: $app_name
 
 server:
   port: $port
@@ -18,7 +18,7 @@ spring.boot.admin.client:
 #    password: ${spring.security.user.password}
 
 logging:
-  file.path: './logs_${HOSTNAME}/'
+  file.path: $logspath/logs_${HOSTNAME}/
 
 spring:
   datasource:
