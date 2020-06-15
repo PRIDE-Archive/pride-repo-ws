@@ -5,9 +5,12 @@ server:
   servlet:
     contextPath: $contextPath
 
-management.endpoints.web.exposure:
-  include: $actuator_include
-  exclude: $actuator_exclude
+management:
+  endpoints.web.exposure:
+    include: $actuator_include
+    exclude: $actuator_exclude
+    endpoint.health:
+      show-details: ALWAYS
 
 spring.boot.admin.client:
   url: $springboot_admin_url
@@ -15,6 +18,7 @@ spring.boot.admin.client:
   password: $springboot_admin_pwd
   instance:
     service-base-url: $service_base_url
+    management-url: $service_base_url
 #    service-url: $self_url
 #    metadata.user: #this is for server to be able to connect to client actuator APIs
 #    name: ${spring.security.user.name}
