@@ -9,9 +9,6 @@ management:
   endpoints.web.exposure:
     include: $actuator_include
     exclude: $actuator_exclude
-    endpoint.health:
-      show-details: ALWAYS
-
 
 spring.boot.admin.client:
   url: $springboot_admin_url
@@ -19,7 +16,8 @@ spring.boot.admin.client:
   password: $springboot_admin_pwd
   auto-deregistration: true
   instance:
-    prefer-ip: true
+    prefer-ip: true #useful when app is running in k8s
+
 #    service-base-url: $service_base_url
 #    management-url: $service_base_url$contextPath
 #    service-url: $self_url

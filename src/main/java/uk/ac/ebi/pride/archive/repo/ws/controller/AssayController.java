@@ -52,28 +52,29 @@ public class AssayController {
         return assayService.findAllByProjectAccession(projectAccession);
     }
 
-    @GetMapping("/findByIdSummary/{assayId}")
-    public AssaySummary findByIdSummary(@Valid @PathVariable Long assayId) throws AssayAccessException {
-        return assayService.findByIdSummary(assayId);
-    }
-
-    @GetMapping("/findByAccessionSummary/{assayAccession}")
-    public AssaySummary findByAccessionSummary(@Valid @PathVariable String assayAccession) throws AssayAccessException {
-        return assayService.findByAccessionSummary(assayAccession);
-    }
-
-    @GetMapping("/findAllByProjectIdSummary/{projectId}")
-    public Collection<AssaySummary> findAllByProjectIdSummary(@Valid @PathVariable Long projectId) throws AssayAccessException {
-        return assayService.findAllByProjectIdSummary(projectId);
-    }
-
-    @GetMapping("/findAllByProjectAccessionSummary/{projectAccession}")
-    public Collection<AssaySummary> findAllByProjectAccessionSummary(@Valid @PathVariable String projectAccession) throws AssayAccessException {
-        return assayService.findAllByProjectAccessionSummary(projectAccession);
-    }
-
     @GetMapping("/countByProjectAccession/{projectAccession}")
     public Long countByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
         return assayService.countByProjectAccession(projectAccession);
     }
+
+//    @GetMapping("/findByIdSummary/{assayId}")
+//    public AssaySummary findByIdSummary(@Valid @PathVariable Long assayId) throws AssayAccessException {
+//        return assayService.findByIdSummary(assayId);
+//    }
+//
+//    @GetMapping("/findByAccessionSummary/{assayAccession}")
+//    public AssaySummary findByAccessionSummary(@Valid @PathVariable String assayAccession) throws AssayAccessException {
+//        return assayService.findByAccessionSummary(assayAccession);
+//    }
+//
+//    @GetMapping("/findAllByProjectIdSummary/{projectId}")
+//    public Collection<AssaySummary> findAllByProjectIdSummary(@Valid @PathVariable Long projectId) throws AssayAccessException {
+//        return assayService.findAllByProjectIdSummary(projectId);
+//    }
+//
+//    @GetMapping("/findAllByProjectAccessionSummary/{projectAccession}")
+//    public Collection<AssaySummary> findAllByProjectAccessionSummary(@Valid @PathVariable String projectAccession) throws AssayAccessException {
+//        return assayService.findAllByProjectAccessionSummary(projectAccession);
+//    }
+
 }
