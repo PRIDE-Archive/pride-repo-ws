@@ -6,10 +6,10 @@ WORKDIR /app
 
 COPY src ./src
 COPY pom.xml ./
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -DjarFinalName=${JAR_FILE_NAME}
 
 # Package stage
 FROM maven:3.3.9-jdk-8-alpine
 WORKDIR /app
-COPY --from=build-env /app/target/pride-repo-ws.jar ./
-ENTRYPOINT java ${JAVA_OPTS} -jar pride-repo-ws.jar
+COPY --from=build-env /app/target/${JAR_FILE_NAME}.jar ./
+ENTRYPOINT java ${JAVA_OPTS} -jar ${JAR_FILE_NAME}.jar
