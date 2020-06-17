@@ -49,3 +49,4 @@ springdoc:
     path: '/api-docs'
   swagger-ui:
     tagsSorter: alpha
+    disable-swagger-default-url: false
