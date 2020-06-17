@@ -24,10 +24,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${security.api-key}")
     private String apiKey;
 
+    @Value("${springdoc.api-docs.path}")
+    private String apiDocsPath;
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-        APIKeyAuthFilter apiKeyAuthFilter= new APIKeyAuthFilter(headerName);
+        APIKeyAuthFilter apiKeyAuthFilter = new APIKeyAuthFilter(headerName);
         apiKeyAuthFilter.setAuthenticationManager(authentication -> {
             String principal = (String) authentication.getPrincipal();
             if (!apiKey.equals(principal)) {
@@ -51,8 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Allow swagger to be accessed without authentication
         web.ignoring()
                 .antMatchers("/actuator/**/**")
-                .antMatchers("/api-docs/**/**")
-                .antMatchers("/swagger-ui/**/**")
+                .antMatchers(apiDocsPath + "/**/**")
+                .antMatchers( "/swagger-ui/**/**")
                 .antMatchers("/"); //this is redirected to swagger-ui page
     }
 

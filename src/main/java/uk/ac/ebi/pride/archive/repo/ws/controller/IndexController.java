@@ -18,16 +18,13 @@ public class IndexController {
     @Value("${springdoc.api-docs.path}")
     private String apiDocsPath;
 
-    @Value("${springdoc.swagger-ui.path}")
-    private String swaggerUiPath;
-
     @RequestMapping(method = RequestMethod.GET, path = {"/"})
     public String getSwaggerUI(HttpServletRequest request) {
         String url = request.getRequestURL().toString();
 
         log.debug("redirect for " + url + " => swagger-ui page");
         //for "/" URL, we redirect client to actual swagger page
-        return "redirect:" + swaggerUiPath + "/index.html?url=" + contextPath + apiDocsPath;
+        return "redirect:swagger-ui/index.html?url=" + contextPath + apiDocsPath;
     }
 
 }

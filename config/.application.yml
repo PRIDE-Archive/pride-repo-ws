@@ -48,5 +48,4 @@ springdoc:
     enabled: true
     path: '/api-docs'
   swagger-ui:
-    path: '/swagger-ui'
     tagsSorter: alpha
