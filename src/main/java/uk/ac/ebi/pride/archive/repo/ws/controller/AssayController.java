@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.ac.ebi.pride.archive.repo.models.assay.Assay;
-import uk.ac.ebi.pride.archive.repo.models.assay.AssaySummary;
 import uk.ac.ebi.pride.archive.repo.ws.exception.AssayAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.AssayService;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
