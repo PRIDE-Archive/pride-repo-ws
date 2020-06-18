@@ -31,8 +31,9 @@ public class AssayController {
     }
 
     @GetMapping("/findById/{assayId}")
-    public Optional<Assay> findById(@Valid @PathVariable Long assayId) throws AssayAccessException {
-        return assayService.findById(assayId);
+    public Assay findById(@Valid @PathVariable Long assayId) throws AssayAccessException {
+        Optional<Assay> optional = assayService.findById(assayId);
+        return optional.orElse(null);
     }
 
     @GetMapping("/findByAccession/{assayAccession}")

@@ -24,7 +24,8 @@ public class IndexController {
 
         log.debug("redirect for " + url + " => swagger-ui page");
         //for "/" URL, we redirect client to actual swagger page
-        return "redirect:swagger-ui/index.html?url=" + contextPath + apiDocsPath;
+        String apiDocsFullpath = contextPath + apiDocsPath;
+        return "redirect:swagger-ui/index.html?url=" + apiDocsFullpath + "&configUrl=" + apiDocsFullpath + "/swagger-config";
     }
 
 }

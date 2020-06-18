@@ -4,14 +4,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import uk.ac.ebi.pride.archive.repo.models.file.FileSummary;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import uk.ac.ebi.pride.archive.repo.models.file.ProjectFile;
 import uk.ac.ebi.pride.archive.repo.ws.exception.FileAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.FileService;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,9 @@ public class FileController {
     }
 
     @GetMapping("/findById/{fileId}")
-    public Optional<ProjectFile> findById(@Valid @PathVariable Long fileId) throws FileAccessException {
-        return fileService.findById(fileId);
+    public ProjectFile findById(@Valid @PathVariable Long fileId) throws FileAccessException {
+        Optional<ProjectFile> byId = fileService.findById(fileId);
+        return byId.orElse(null);
     }
 
     @GetMapping("/findAllByProjectId/{projectId}")
