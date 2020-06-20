@@ -1,7 +1,7 @@
 package uk.ac.ebi.pride.archive.repo.ws.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Transactional
 @Repository
-public interface ProjectRepository extends CrudRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, Long> {
 
   Project findByAccession(String projectAccession);
 

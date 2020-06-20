@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.pride.archive.repo.models.assay.Assay;
-import uk.ac.ebi.pride.archive.repo.models.project.Project;
 import uk.ac.ebi.pride.archive.repo.ws.exception.AssayAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.AssayService;
 

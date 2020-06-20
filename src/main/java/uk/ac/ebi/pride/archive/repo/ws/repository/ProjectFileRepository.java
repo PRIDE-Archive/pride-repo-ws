@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.archive.repo.ws.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import uk.ac.ebi.pride.archive.repo.models.file.ProjectFile;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @version $Id$
  */
 @Repository
-public interface ProjectFileRepository extends CrudRepository<ProjectFile, Long> {
+public interface ProjectFileRepository extends JpaRepository<ProjectFile, Long> {
 
   List<ProjectFile> findAllByProjectId(Long projectId);
 
