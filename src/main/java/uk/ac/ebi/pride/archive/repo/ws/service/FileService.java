@@ -19,12 +19,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author Rui Wang
- * @author Jose A. Dianes
- * @version $Id$
- * <p>
- */
 @Service
 @Transactional(readOnly = true)
 @Slf4j
@@ -169,5 +163,11 @@ public class FileService {
             log.error(msg, ex);
             throw new FileAccessException(msg, ex);
         }
+    }
+
+    @Transactional(readOnly = false)
+    public Long saveProjectFile(ProjectFile projectFile) {
+        ProjectFile savedProjectFile = projectFileRepository.save(projectFile);
+        return savedProjectFile.getId();
     }
 }

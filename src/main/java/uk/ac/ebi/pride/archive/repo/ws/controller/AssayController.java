@@ -4,11 +4,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.pride.archive.repo.models.assay.Assay;
+import uk.ac.ebi.pride.archive.repo.models.project.Project;
 import uk.ac.ebi.pride.archive.repo.ws.exception.AssayAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.AssayService;
 
@@ -54,6 +52,11 @@ public class AssayController {
     @GetMapping("/countByProjectAccession/{projectAccession}")
     public Long countByProjectAccession(@Valid @PathVariable String projectAccession) throws AssayAccessException {
         return assayService.countByProjectAccession(projectAccession);
+    }
+
+    @PostMapping(path = "/save", consumes = "application/json")
+    public Long saveAssay(@RequestBody Assay assay) {
+        return assayService.saveAssay(assay);
     }
 
 //    @GetMapping("/findByIdSummary/{assayId}")

@@ -1,8 +1,6 @@
 package uk.ac.ebi.pride.archive.repo.ws.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -109,16 +107,13 @@ public class UserWebService extends UserService {
      * Please note: original user's password should be plain text instead of hashed version
      */
     @Override
-    public void update(UserSummary originalUser, UserSummary updatedUser)
-            throws UserModificationException {
-        String updateUserRestfulUrl =
-                userWebServiceUrl.getUpdateUrl()
+    public void update(UserSummary originalUser, UserSummary updatedUser) throws UserModificationException {
+        String updateUserRestfulUrl = userWebServiceUrl.getUpdateUrl()
                         + (userWebServiceUrl.getUpdateUrl().endsWith("/") ? "" : "/")
                         + "{userid}";
         String originalUserEmail = originalUser.getEmail();
         try {
-            RestTemplate newRestTemplate =
-                    SecureRestTemplateFactory.getTemplate(originalUserEmail, originalUser.getPassword());
+            RestTemplate newRestTemplate = SecureRestTemplateFactory.getTemplate(originalUserEmail, originalUser.getPassword());
             newRestTemplate.put(updateUserRestfulUrl, new UserSummary(updatedUser), originalUser.getId());
         } catch (Exception e) {
             String msg = "Failed to query web service to update details for user: " + originalUserEmail;

@@ -17,12 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * @author Rui Wang
- * @author Jose A. Dianes
- * @version $Id$
- * <p>
- */
 @Service
 @Transactional(readOnly = true)
 @Slf4j
@@ -178,6 +172,12 @@ public class ProjectService {
 
     public List<String> findAllAccessionsChanged() {
         return projectRepository.findAllAccessionsChanged();
+    }
+
+    @Transactional(readOnly = false)
+    public Long saveProject(Project project) {
+        Project savedPrj = projectRepository.save(project);
+        return savedPrj.getId();
     }
 }
 

@@ -21,12 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author Rui Wang
- * @author Jose A. Dianes
- * @version $Id$
- * <p>
- */
 @Service
 @Transactional(readOnly = true)
 @Slf4j
@@ -218,5 +212,11 @@ public class AssayService {
         }
 
         return assayCount;
+    }
+
+    @Transactional(readOnly = false)
+    public Long saveAssay(Assay assay) {
+        Assay savedAssay = assayRepository.save(assay);
+        return savedAssay.getId();
     }
 }
