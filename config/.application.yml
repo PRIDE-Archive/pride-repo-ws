@@ -31,15 +31,33 @@ logging:
   file.path: $logspath/logs_${HOSTNAME}/
 
 spring:
+  jpa:
+#    generate-ddl: true
+    database: POSTGRESQL
+    hibernate:
+#      ddl-auto: update
+      show-sql: true
+    properties.hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      format_sql: true
   datasource:
-    # Oracle Database
-    oracle:
-      jdbcUrl: $oracle_jdbc_url
-      username: $oracle_username
-      password: $oracle_password
-      driver-class-name: oracle.jdbc.OracleDriver
-    maxPoolSize: $oracle_maxPoolSize
-    idleTimeOut: $oracle_idleTimeOut
+    platform: postgres
+    url: $pg_jdbc_url
+    username: $pg_username
+    password: $pg_passwd
+    maxPoolSize: $pg_maxPoolSize
+    idleTimeOut: $pg_idleTimeOut
+
+#spring:
+#  datasource:
+#    # Oracle Database
+#    oracle:
+#      jdbcUrl: $oracle_jdbc_url
+#      username: $oracle_username
+#      password: $oracle_password
+#      driver-class-name: oracle.jdbc.OracleDriver
+#    maxPoolSize: $oracle_maxPoolSize
+#    idleTimeOut: $oracle_idleTimeOut
 
 security:
   header-name: $api_key_header
