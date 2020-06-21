@@ -175,9 +175,8 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = false)
-    public Long saveProject(Project project) {
-        Project savedPrj = projectRepository.save(project);
-        return savedPrj.getId();
+    public Project saveProject(Project project) {
+        return projectRepository.save(project);
     }
 }
 

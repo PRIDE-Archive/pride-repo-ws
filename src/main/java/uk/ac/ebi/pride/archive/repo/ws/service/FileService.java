@@ -166,8 +166,7 @@ public class FileService {
     }
 
     @Transactional(readOnly = false)
-    public Long saveProjectFile(ProjectFile projectFile) {
-        ProjectFile savedProjectFile = projectFileRepository.save(projectFile);
-        return savedProjectFile.getId();
+    public ProjectFile saveProjectFile(ProjectFile projectFile) {
+        return projectFileRepository.save(projectFile);
     }
 }

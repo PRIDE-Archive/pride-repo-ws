@@ -54,7 +54,7 @@ public class AssayController {
     }
 
     @PostMapping(path = "/save", consumes = "application/json")
-    public Long saveAssay(@RequestBody Assay assay) {
+    public Assay saveAssay(@RequestBody Assay assay) {
         return assayService.saveAssay(assay);
     }
 

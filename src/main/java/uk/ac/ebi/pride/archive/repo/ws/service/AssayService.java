@@ -215,8 +215,7 @@ public class AssayService {
     }
 
     @Transactional(readOnly = false)
-    public Long saveAssay(Assay assay) {
-        Assay savedAssay = assayRepository.save(assay);
-        return savedAssay.getId();
+    public Assay saveAssay(Assay assay) {
+        return assayRepository.save(assay);
     }
 }
