@@ -128,11 +128,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public UserSummary findByEmail(String email) throws UserAccessException {
+    public User findByEmail(String email) throws UserAccessException {
         Assert.notNull(email, "Email cannot be null");
         try {
-            User user = userRepository.findByEmail(email);
-            return ObjectMapper.mapUserToUserSummary(user);
+            return userRepository.findByEmail(email);
         } catch (Exception ex) {
             String msg = "Failed to find user by email: " + email;
             log.error(msg, ex);
@@ -209,12 +208,8 @@ public class UserServiceImpl implements UserService {
         return projectSummaries;
     }
 
-    public Collection<UserSummary> findAllByProjectId(Long id) {
-        List<User> users = userRepository.findAllByProjectId(id);
-        if (users != null) {
-            return ObjectMapper.mapUsersToUserSummaries(users);
-        }
-        return null;
+    public List<User> findAllByProjectId(Long id) {
+        return userRepository.findAllByProjectId(id);
     }
 
     @Transactional
