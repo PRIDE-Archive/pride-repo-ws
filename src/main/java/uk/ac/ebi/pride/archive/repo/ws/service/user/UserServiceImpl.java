@@ -1,8 +1,7 @@
-package uk.ac.ebi.pride.archive.repo.ws.service;
+package uk.ac.ebi.pride.archive.repo.ws.service.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -29,7 +28,7 @@ import java.util.*;
 @Service
 @Transactional(readOnly = true)
 @Slf4j
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private static final int REVIEWER_LENGTH = 5;
     private static final String EBI_DOMAIN = "@ebi.ac.uk";
@@ -41,8 +40,7 @@ public class UserService {
     private UserRepository userRepository;
     private ProjectRepository projectRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository, ProjectRepository projectRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProjectRepository projectRepository) {
         this.userRepository = userRepository;
         this.projectRepository = projectRepository;
     }
@@ -68,24 +66,6 @@ public class UserService {
         return signUp(userSummary);
     }
 
-    private User mapToPersistableUser(UserSummary userSummary) {
-        User prideUser = new User();
-        prideUser.setEmail(userSummary.getEmail());
-        prideUser.setPassword(userSummary.getPassword());
-        prideUser.setUserRef(userSummary.getUserRef());
-        prideUser.setTitle(userSummary.getTitle());
-        prideUser.setFirstName(userSummary.getFirstName());
-        prideUser.setLastName(userSummary.getLastName());
-        prideUser.setAffiliation(userSummary.getAffiliation());
-        prideUser.setCountry(userSummary.getCountry());
-        prideUser.setOrcid(userSummary.getOrcid());
-        prideUser.setAcceptedTermsOfUse(userSummary.getAcceptedTermsOfUse() ? 1 : 0);
-        prideUser.setAcceptedTermsOfUseAt(userSummary.getAcceptedTermsOfUseAt());
-        Set<RoleConstants> authorities = new HashSet<>();
-        authorities.add(RoleConstants.SUBMITTER); // can only create submitter
-        prideUser.setUserAuthorities(authorities);
-        return prideUser;
-    }
 
     private void setCreationAndUpdateDate(User user) {
         Date currentDate = Calendar.getInstance().getTime();
@@ -148,18 +128,6 @@ public class UserService {
         }
     }
 
-    public UserSummary findById(Long userId) throws UserAccessException {
-        Assert.notNull(userId, "User id cannot be null");
-        try {
-            Optional<User> user = userRepository.findById(userId);
-            return ObjectMapper.mapUserToUserSummary(user.get());
-        } catch (Exception ex) {
-            String msg = "Failed to find user by user id: " + userId;
-            log.error(msg, ex);
-            throw new UserAccessException(msg, ex);
-        }
-    }
-
     public UserSummary findByEmail(String email) throws UserAccessException {
         Assert.notNull(email, "Email cannot be null");
         try {
@@ -172,7 +140,7 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = false)
+    /*@Transactional(readOnly = false)
     public void update(UserSummary originalUser, UserSummary updatedUser)
             throws UserModificationException {
         Assert.notNull(originalUser, "User to update cannot be null");
@@ -187,7 +155,7 @@ public class UserService {
             log.error(msg, ex);
             throw new UserAccessException(msg, ex, originalUser.getEmail());
         }
-    }
+    }*/
 
     private void updateUser(UserSummary prideUser, UserSummary user) {
         if (user.getEmail() != null) {
@@ -239,6 +207,56 @@ public class UserService {
             projectSummaries.add(ObjectMapper.mapProjectToProjectSummary(accessibleProject));
         }
         return projectSummaries;
+    }
+
+    public Collection<UserSummary> findAllByProjectId(Long id) {
+        List<User> users = userRepository.findAllByProjectId(id);
+        if (users != null) {
+            return ObjectMapper.mapUsersToUserSummaries(users);
+        }
+        return null;
+    }
+
+    @Transactional
+    public User save(User user) {
+        Assert.notNull(user, "User object cannot be null");
+        try {
+            return userRepository.save(user);
+        } catch (Exception ex) {
+            String msg = "Failed to save user";
+            log.error(msg, ex);
+            throw new UserModificationException(msg, ex, user.getEmail());
+        }
+    }
+
+
+    @Transactional
+    public List<User> findUsersNotInAAP() {
+        return userRepository.findUsersNotInAAP();
+    }
+
+    @Transactional
+    public User findByUserRef(String userRef) {
+        return userRepository.findByUserRef(userRef);
+    }
+
+    private User mapToPersistableUser(UserSummary userSummary) {
+        User prideUser = new User();
+        prideUser.setEmail(userSummary.getEmail());
+        prideUser.setPassword(userSummary.getPassword());
+        prideUser.setUserRef(userSummary.getUserRef());
+        prideUser.setTitle(userSummary.getTitle());
+        prideUser.setFirstName(userSummary.getFirstName());
+        prideUser.setLastName(userSummary.getLastName());
+        prideUser.setAffiliation(userSummary.getAffiliation());
+        prideUser.setCountry(userSummary.getCountry());
+        prideUser.setOrcid(userSummary.getOrcid());
+        prideUser.setAcceptedTermsOfUse(userSummary.getAcceptedTermsOfUse() ? 1 : 0);
+        prideUser.setAcceptedTermsOfUseAt(userSummary.getAcceptedTermsOfUseAt());
+        Set<RoleConstants> authorities = new HashSet<>();
+        authorities.add(RoleConstants.SUBMITTER); // can only create submitter
+        prideUser.setUserAuthorities(authorities);
+        return prideUser;
     }
 
     @Transactional
@@ -293,5 +311,6 @@ public class UserService {
     private String generateReviewerUsername() {
         return REVIEWER + RandomStringUtils.random(REVIEWER_LENGTH, false, true) + EBI_DOMAIN;
     }
+
 }
 
