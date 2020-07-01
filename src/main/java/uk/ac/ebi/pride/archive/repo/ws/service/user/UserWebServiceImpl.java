@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.archive.repo.ws.service;
+package uk.ac.ebi.pride.archive.repo.ws.service.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import uk.ac.ebi.pride.archive.repo.ws.exception.UserExistsException;
 import uk.ac.ebi.pride.archive.repo.ws.exception.UserModificationException;
 import uk.ac.ebi.pride.archive.repo.ws.repository.ProjectRepository;
 import uk.ac.ebi.pride.archive.repo.ws.repository.UserRepository;
-import uk.ac.ebi.pride.web.util.template.SecureRestTemplateFactory;
 
 /**
  * @author Rui Wang
@@ -25,13 +24,13 @@ import uk.ac.ebi.pride.web.util.template.SecureRestTemplateFactory;
 @Service
 @Transactional
 @Slf4j
-public class UserWebService extends UserService {
+public class UserWebServiceImpl extends UserServiceImpl {
 
     private RestTemplate restTemplate;
     private UserWebServiceUrl userWebServiceUrl;
 
     @Autowired
-    public UserWebService(
+    public UserWebServiceImpl(
             UserRepository userRepository,
             ProjectRepository projectRepository,
             UserWebServiceUrl userWebServiceUrl) {
@@ -103,10 +102,9 @@ public class UserWebService extends UserService {
         }
     }
 
-    /**
+     /* **
      * Please note: original user's password should be plain text instead of hashed version
-     */
-    @Override
+     *//*
     public void update(UserSummary originalUser, UserSummary updatedUser) throws UserModificationException {
         String updateUserRestfulUrl = userWebServiceUrl.getUpdateUrl()
                         + (userWebServiceUrl.getUpdateUrl().endsWith("/") ? "" : "/")
@@ -120,5 +118,5 @@ public class UserWebService extends UserService {
             log.error(msg, e);
             throw new UserModificationException(msg, e, originalUserEmail);
         }
-    }
+    }*/
 }

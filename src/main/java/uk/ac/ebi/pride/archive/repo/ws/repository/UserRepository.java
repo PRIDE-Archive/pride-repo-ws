@@ -29,5 +29,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   //Fetch users not in AAP
   @Query("select u from User u where u.userRef is null")
-  List<User> findFilteredLocalUsers();
+  List<User> findUsersNotInAAP();
 }
