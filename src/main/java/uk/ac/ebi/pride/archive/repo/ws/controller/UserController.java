@@ -7,10 +7,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.pride.archive.repo.models.project.ProjectSummary;
 import uk.ac.ebi.pride.archive.repo.models.user.User;
-import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
 import uk.ac.ebi.pride.archive.repo.ws.service.user.UserServiceImpl;
 
-import java.util.Collection;
 import java.util.List;
 
 
@@ -30,12 +28,12 @@ public class UserController {
     }
 
     @GetMapping("/findAllByProjectId/{id}")
-    public Collection<UserSummary> findAllByProjectId(@PathVariable Long id) throws Exception {
+    public List<User> findAllByProjectId(@PathVariable Long id) throws Exception {
         return userServiceImpl.findAllByProjectId(id);
     }
 
     @GetMapping("/findByEmail/{email}")
-    public UserSummary findByEmail(@PathVariable String email) throws Exception {
+    public User findByEmail(@PathVariable String email) throws Exception {
         return userServiceImpl.findByEmail(email);
     }
 

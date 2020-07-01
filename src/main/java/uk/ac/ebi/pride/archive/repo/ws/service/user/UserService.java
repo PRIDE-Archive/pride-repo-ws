@@ -17,7 +17,7 @@ public interface UserService {
 
     boolean isEmailedInUse(String email) throws UserAccessException;
 
-    UserSummary findByEmail(String email) throws UserAccessException;
+    User findByEmail(String email) throws UserAccessException;
 
     List<ProjectSummary> findAllProjectsById(Long userId) throws UserAccessException;
 }
