@@ -20,11 +20,6 @@ import uk.ac.ebi.pride.archive.repo.ws.repository.UserRepository;
 
 import java.util.*;
 
-/**
- * @author Rui Wang
- * @author Jose A. Dianes
- * @version $Id$
- */
 @Service
 @Transactional(readOnly = true)
 @Slf4j
@@ -87,47 +82,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Transactional(readOnly = false)
-    public UserSummary resetPassword(String email) throws UserModificationException {
-        Assert.notNull(email, "Email cannot be empty");
-        try {
-            User user = userRepository.findByEmail(email);
-            String newPassword = PasswordUtilities.generatePassword(); // reset passwor
-            user.setPassword(newPassword);
-            userRepository.save(user);
-            return hideUserDetailsForPasswordReset(user, newPassword);
-        } catch (Exception ex) {
-            String msg = "Failed to reset password for user: " + email;
-            log.error(msg, ex);
-            throw new UserModificationException(msg, ex, email);
-        }
-    }
-
-    private UserSummary hideUserDetailsForPasswordReset(User user, String newPassword) {
-        UserSummary userSummary = ObjectMapper.mapUserToUserSummary(user);
-        userSummary.setPassword(newPassword);
-        return userSummary;
-    }
-
-    public UserSummary login(String email, String passwordPlainText) throws UserAccessException {
-        Assert.notNull(email, "Email cannot be empty");
-        Assert.notNull(passwordPlainText, "Password cannot be empty");
-        try {
-            User user = userRepository.findByEmail(email);
-            if (PasswordUtilities.matches(passwordPlainText, user.getPassword())) {
-                return ObjectMapper.mapUserToUserSummary(user);
-            } else {
-                String msg = "Failed to login as user: " + email;
-                log.error(msg);
-                throw new UserAccessException(msg);
-            }
-        } catch (Exception ex) {
-            String msg = "Failed to login as user: " + email;
-            log.error(msg, ex);
-            throw new UserAccessException(msg, ex, email);
-        }
-    }
-
     public User findByEmail(String email) throws UserAccessException {
         Assert.notNull(email, "Email cannot be null");
         try {
@@ -136,61 +90,6 @@ public class UserServiceImpl implements UserService {
             String msg = "Failed to find user by email: " + email;
             log.error(msg, ex);
             throw new UserAccessException(msg, ex, email);
-        }
-    }
-
-    /*@Transactional(readOnly = false)
-    public void update(UserSummary originalUser, UserSummary updatedUser)
-            throws UserModificationException {
-        Assert.notNull(originalUser, "User to update cannot be null");
-        Assert.notNull(updatedUser, "User to update cannot be null");
-        try {
-            updateUser(originalUser, updatedUser);
-            changeUpdateDate(originalUser);
-            User user = ObjectMapper.mapUserSummaryToUser(originalUser);
-            userRepository.save(user);
-        } catch (Exception ex) {
-            String msg = "Failed to update user detail, user email: " + originalUser.getEmail();
-            log.error(msg, ex);
-            throw new UserAccessException(msg, ex, originalUser.getEmail());
-        }
-    }*/
-
-    private void updateUser(UserSummary prideUser, UserSummary user) {
-        if (user.getEmail() != null) {
-            prideUser.setEmail(user.getEmail());
-        }
-        if (user.getPassword() != null) {
-            prideUser.setPassword(user.getPassword());
-        }
-        if (user.getTitle() != null) {
-            prideUser.setTitle(user.getTitle());
-        }
-        if (user.getFirstName() != null) {
-            prideUser.setFirstName(user.getFirstName());
-        }
-        if (user.getLastName() != null) {
-            prideUser.setLastName(user.getLastName());
-        }
-        if (user.getAffiliation() != null) {
-            prideUser.setAffiliation(user.getAffiliation());
-        }
-        if (user.getCountry() != null) {
-            prideUser.setCountry(user.getCountry());
-        }
-        if (user.getOrcid() != null) {
-            prideUser.setOrcid(user.getOrcid());
-        }
-        if (user.getAcceptedTermsOfUse() != null) {
-            prideUser.setAcceptedTermsOfUse(user.getAcceptedTermsOfUse());
-        }
-    }
-
-    private void changeUpdateDate(UserSummary userSummary) {
-        Date currentDate = Calendar.getInstance().getTime();
-        userSummary.setUpdateAt(currentDate);
-        if (userSummary.getAcceptedTermsOfUse() != null && userSummary.getAcceptedTermsOfUse()) {
-            userSummary.setAcceptedTermsOfUseAt(currentDate);
         }
     }
 

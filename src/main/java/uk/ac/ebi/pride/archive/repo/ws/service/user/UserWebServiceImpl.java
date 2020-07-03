@@ -17,10 +17,6 @@ import uk.ac.ebi.pride.archive.repo.ws.exception.UserModificationException;
 import uk.ac.ebi.pride.archive.repo.ws.repository.ProjectRepository;
 import uk.ac.ebi.pride.archive.repo.ws.repository.UserRepository;
 
-/**
- * @author Rui Wang
- * @version $Id$
- */
 @Service
 @Transactional
 @Slf4j
@@ -85,38 +81,4 @@ public class UserWebServiceImpl extends UserServiceImpl {
             throw new UserModificationException(msg, e, email);
         }
     }
-
-    @Override
-    public UserSummary resetPassword(String email) throws UserModificationException {
-        UserSummary userSummary = new UserSummary();
-        userSummary.setEmail(email);
-
-        try {
-            return restTemplate.postForObject(
-                    userWebServiceUrl.getPasswordResetUrl(), userSummary, UserSummary.class);
-        } catch (Exception e) {
-            String msg =
-                    "Failed to query web service to reset password for user: " + userSummary.getEmail();
-            log.error(msg, e);
-            throw new UserModificationException(msg, e, email);
-        }
-    }
-
-     /* **
-     * Please note: original user's password should be plain text instead of hashed version
-     *//*
-    public void update(UserSummary originalUser, UserSummary updatedUser) throws UserModificationException {
-        String updateUserRestfulUrl = userWebServiceUrl.getUpdateUrl()
-                        + (userWebServiceUrl.getUpdateUrl().endsWith("/") ? "" : "/")
-                        + "{userid}";
-        String originalUserEmail = originalUser.getEmail();
-        try {
-            RestTemplate newRestTemplate = SecureRestTemplateFactory.getTemplate(originalUserEmail, originalUser.getPassword());
-            newRestTemplate.put(updateUserRestfulUrl, new UserSummary(updatedUser), originalUser.getId());
-        } catch (Exception e) {
-            String msg = "Failed to query web service to update details for user: " + originalUserEmail;
-            log.error(msg, e);
-            throw new UserModificationException(msg, e, originalUserEmail);
-        }
-    }*/
 }
