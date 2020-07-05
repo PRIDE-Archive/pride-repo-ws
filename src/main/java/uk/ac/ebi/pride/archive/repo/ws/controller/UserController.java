@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public User saveUser(@RequestBody User user) throws Exception {
+    public User save(@RequestBody User user) throws Exception {
         return userServiceImpl.save(user);
     }
 

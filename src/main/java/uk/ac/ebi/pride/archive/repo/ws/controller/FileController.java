@@ -54,7 +54,7 @@ public class FileController {
     }
 
     @PostMapping(path = "/save", consumes = "application/json")
-    public ProjectFile saveFile(@RequestBody ProjectFile projectFile) {
+    public ProjectFile save(@RequestBody ProjectFile projectFile) {
         return fileService.saveProjectFile(projectFile);
     }
 

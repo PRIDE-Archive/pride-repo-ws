@@ -85,7 +85,7 @@ public class ProjectController {
     }
 
     @PostMapping(path = "/save", consumes = "application/json")
-    public Project saveProject(@RequestBody Project project) {
+    public Project save(@RequestBody Project project) {
         return projectService.saveProject(project);
     }
 
