@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import uk.ac.ebi.pride.archive.repo.models.file.ProjectFile;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
 import uk.ac.ebi.pride.archive.repo.ws.exception.ProjectAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.ProjectService;
@@ -27,11 +26,6 @@ public class ProjectController {
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
-
-//    @GetMapping("")
-//    public Iterable<Project> findAll() throws ProjectAccessException {
-//        return projectService.findAll();
-//    }
 
     @GetMapping("/findById/{id}")
     public Project findById(@Valid @PathVariable Long id) throws ProjectAccessException {

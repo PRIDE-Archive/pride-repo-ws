@@ -84,9 +84,6 @@ public class AssayService {
         Assert.notNull(projectAccession, "Project accession cannot be null");
         Long assayCount = 0L;
 
-        // get the project
-        // TODO: in the future we will need a DAO method directly in the assay DAO to get all the
-        // experiments by Project accession
         try {
             Project project = projectRepository.findByAccession(projectAccession);
             if (project != null) {

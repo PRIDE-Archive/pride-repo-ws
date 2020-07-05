@@ -6,16 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import uk.ac.ebi.pride.archive.repo.models.assay.Assay;
-import uk.ac.ebi.pride.archive.repo.models.file.FileSummary;
 import uk.ac.ebi.pride.archive.repo.models.file.ProjectFile;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
-import uk.ac.ebi.pride.archive.repo.util.ObjectMapper;
 import uk.ac.ebi.pride.archive.repo.ws.exception.FileAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.repository.AssayRepository;
 import uk.ac.ebi.pride.archive.repo.ws.repository.ProjectFileRepository;
 import uk.ac.ebi.pride.archive.repo.ws.repository.ProjectRepository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
