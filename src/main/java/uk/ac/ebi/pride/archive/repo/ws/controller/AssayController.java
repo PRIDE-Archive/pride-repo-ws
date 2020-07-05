@@ -54,28 +54,12 @@ public class AssayController {
     }
 
     @PostMapping(path = "/save", consumes = "application/json")
-    public Assay saveAssay(@RequestBody Assay assay) {
-        return assayService.saveAssay(assay);
+    public Assay save(@RequestBody Assay assay) {
+        return assayService.save(assay);
     }
 
-//    @GetMapping("/findByIdSummary/{assayId}")
-//    public AssaySummary findByIdSummary(@Valid @PathVariable Long assayId) throws AssayAccessException {
-//        return assayService.findByIdSummary(assayId);
-//    }
-//
-//    @GetMapping("/findByAccessionSummary/{assayAccession}")
-//    public AssaySummary findByAccessionSummary(@Valid @PathVariable String assayAccession) throws AssayAccessException {
-//        return assayService.findByAccessionSummary(assayAccession);
-//    }
-//
-//    @GetMapping("/findAllByProjectIdSummary/{projectId}")
-//    public Collection<AssaySummary> findAllByProjectIdSummary(@Valid @PathVariable Long projectId) throws AssayAccessException {
-//        return assayService.findAllByProjectIdSummary(projectId);
-//    }
-//
-//    @GetMapping("/findAllByProjectAccessionSummary/{projectAccession}")
-//    public Collection<AssaySummary> findAllByProjectAccessionSummary(@Valid @PathVariable String projectAccession) throws AssayAccessException {
-//        return assayService.findAllByProjectAccessionSummary(projectAccession);
-//    }
-
+    @DeleteMapping(path = "/delete", consumes = "application/json")
+    public void delete(@RequestBody Assay assay) {
+        assayService.delete(assay);
+    }
 }

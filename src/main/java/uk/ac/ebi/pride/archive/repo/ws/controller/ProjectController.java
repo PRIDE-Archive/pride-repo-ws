@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import uk.ac.ebi.pride.archive.repo.models.file.ProjectFile;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
 import uk.ac.ebi.pride.archive.repo.ws.exception.ProjectAccessException;
 import uk.ac.ebi.pride.archive.repo.ws.service.ProjectService;
@@ -86,35 +87,12 @@ public class ProjectController {
 
     @PostMapping(path = "/save", consumes = "application/json")
     public Project save(@RequestBody Project project) {
-        return projectService.saveProject(project);
+        return projectService.save(project);
     }
 
-//    @GetMapping("/findByIdSummary/{id}")
-//    public String findByIdSummary(@Valid @PathVariable Long id) throws ProjectAccessException, JsonProcessingException {
-//        String s = objectMapper.writeValueAsString(projectService.findByIdSummary(id));
-//        System.out.println(s);
-//        return s;
-//    }
-
-//    @GetMapping("/findByAccessionSummary/{accession}")
-//    public ProjectSummary findByAccessionSummary(@Valid @PathVariable String accession) throws ProjectAccessException {
-//        return projectService.findByAccessionSummary(accession);
-//    }
-
-//    @GetMapping("/findBySubmitterIdAndIsPublicSummary")
-//    public List<ProjectSummary> findBySubmitterIdAndIsPublicSummary(@Valid @RequestParam Long submitterId,
-//                                                                     @Valid @RequestParam Boolean isPublic) {
-//        return projectService.findBySubmitterIdAndIsPublicSummary(submitterId, isPublic);
-//    }
-
-//    @GetMapping("/findBySubmitterIdSummary/{submitterId}")
-//    public Collection<ProjectSummary> findBySubmitterIdSummary(@Valid @PathVariable Long submitterId) throws ProjectAccessException {
-//        return projectService.findBySubmitterIdSummary(submitterId);
-//    }
-
-//    @GetMapping("/findByReviewerSummary/{user_aap_ref}")
-//    public List<ProjectSummary> findByReviewerSummary(@Valid @PathVariable String user_aap_ref) {
-//       return projectService.findByReviewerSummary(user_aap_ref);
-//    }
+    @DeleteMapping(path = "/delete", consumes = "application/json")
+    public void delete(@RequestBody Project project) {
+        projectService.delete(project);
+    }
 }
 
