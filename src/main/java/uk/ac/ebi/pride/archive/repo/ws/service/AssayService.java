@@ -20,9 +20,8 @@ import java.util.Optional;
 @Slf4j
 public class AssayService {
 
-    private AssayRepository assayRepository;
-
-    private ProjectRepository projectRepository;
+    private final AssayRepository assayRepository;
+    private final ProjectRepository projectRepository;
 
     @Autowired
     public AssayService(AssayRepository assayRepository, ProjectRepository projectRepository) {

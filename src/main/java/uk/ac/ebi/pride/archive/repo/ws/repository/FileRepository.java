@@ -11,7 +11,7 @@ import java.util.List;
  * @version $Id$
  */
 @Repository
-public interface ProjectFileRepository extends JpaRepository<ProjectFile, Long> {
+public interface FileRepository extends JpaRepository<ProjectFile, Long> {
 
   List<ProjectFile> findAllByProjectId(Long projectId);
 

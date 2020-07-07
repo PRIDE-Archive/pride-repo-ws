@@ -21,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 public class ProjectService {
 
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository) {
