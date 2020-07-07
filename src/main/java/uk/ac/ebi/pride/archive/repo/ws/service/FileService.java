@@ -13,6 +13,7 @@ import uk.ac.ebi.pride.archive.repo.ws.repository.AssayRepository;
 import uk.ac.ebi.pride.archive.repo.ws.repository.FileRepository;
 import uk.ac.ebi.pride.archive.repo.ws.repository.ProjectRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,6 +96,16 @@ public class FileService {
     @Transactional(readOnly = false)
     public ProjectFile save(ProjectFile projectFile) {
         return fileRepository.save(projectFile);
+    }
+
+    @Transactional(readOnly = false)
+    //to support saving multiple files in one transaction
+    public List<ProjectFile> saveMultiple(List<ProjectFile> files) {
+        List<ProjectFile> savedFiles = new ArrayList<>(files.size());
+        for(ProjectFile file: files) {
+            savedFiles.add(fileRepository.save(file));
+        }
+        return savedFiles;
     }
 
     @Transactional(readOnly = false)

@@ -58,6 +58,11 @@ public class FileController {
         return fileService.save(projectFile);
     }
 
+    @PostMapping(path = "/saveMultiple", consumes = "application/json")
+    public List<ProjectFile> saveMultiple(List<ProjectFile> files) {
+        return fileService.saveMultiple(files);
+    }
+
     @DeleteMapping(path = "/delete", consumes = "application/json")
     public void delete(@RequestBody ProjectFile file) {
         fileService.delete(file);
