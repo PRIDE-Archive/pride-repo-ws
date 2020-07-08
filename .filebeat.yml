@@ -10,13 +10,19 @@ filebeat.inputs:
 fields:
   log_type: springboot_default
 
-setup.template.settings:
-  index.number_of_shards: 3
+setup:
+  ilm.enabled: false #this is needed for docker image from 7.x versions
+  template:
+    name: $app_name
+    pattern: $app_name
+    settings.index.number_of_shards: 3
 
-output.logstash:
-  hosts: $logstash_hosts
-  loadbalance: true
+output.elasticsearch:
+  hosts: $elasticsearch_hosts
+  proxy_url: http://$http_proxy_host:$http_proxy_port
   index: $app_name
+
+  setup.ilm.enabled: false #this is needed for docker image from 7.x versions
 
 processors:
   - add_host_metadata: ~
