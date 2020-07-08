@@ -21,7 +21,7 @@ public class SimpleFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (!request.getRequestURL().toString().contains("actuator/health")) {
+        if (!request.getRequestURL().toString().contains("actuator/")) {
             log.info("Request URL: " + request.getRequestURL());
         }
 
