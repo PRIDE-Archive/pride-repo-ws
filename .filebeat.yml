@@ -2,7 +2,7 @@ filebeat.inputs:
   - type: log
     enabled: true
     paths:
-      - $logpath/$app_name/logs_*/*.log
+      - $logpath/logs_*/*.log
     multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
     multiline.negate: true
     multiline.match: after
@@ -16,7 +16,7 @@ setup.template.settings:
 output.logstash:
   hosts: $logstash_hosts
   loadbalance: true
-  index: 'px-doi-ws'
+  index: $app_name
 
 processors:
   - add_host_metadata: ~
