@@ -127,7 +127,7 @@ spec:
                   fieldPath: spec.nodeName
           volumeMounts:
             - name: logvolume
-              mountPath: $logpath
+              mountPath: $logspath
             - name: filebeat-config
               mountPath: /usr/share/filebeat/filebeat.yml
               subPath: filebeat.yml
