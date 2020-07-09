@@ -22,7 +22,12 @@ public class SimpleFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         if (!request.getRequestURL().toString().contains("actuator/")) {
-            log.info("Request URL: " + request.getRequestURL());
+            String msg = "RequestURL: " + request.getRequestURL();
+            String appName = request.getHeader("app");
+            if (appName != null) {
+                msg = "[RequesterAPP: " + appName + "] " + msg;
+            }
+            log.info(msg);
         }
 
         filterChain.doFilter(request, response);
