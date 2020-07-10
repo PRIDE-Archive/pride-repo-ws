@@ -19,7 +19,7 @@ setup:
     pattern: $app_name
     settings.index.number_of_shards: 3
 
-output.logstash::
+output.logstash:
   hosts: $logstash_hosts
   index: $app_name
 
