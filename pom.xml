@@ -25,6 +25,7 @@
         <pride-repo-commons>0.0.1-SNAPSHOT</pride-repo-commons>
         <springdocOpenApi>1.4.1</springdocOpenApi>
         <lombokVersion>1.18.12</lombokVersion>
+        <aapClientVersion>1.0.3-SNAPSHOT</aapClientVersion>
         <spring-boot-admin-starter-client.version>2.2.3</spring-boot-admin-starter-client.version>
     </properties>
 
@@ -77,6 +78,20 @@
             <artifactId>commons-io</artifactId>
             <version>2.7</version>
         </dependency>
+
+        <!--AAP Security-->
+        <dependency>
+            <groupId>uk.ac.ebi.tsc.aap.client</groupId>
+            <artifactId>security</artifactId>
+            <version>${aapClientVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
+        </dependency>
+
     </dependencies>
 
     <build>

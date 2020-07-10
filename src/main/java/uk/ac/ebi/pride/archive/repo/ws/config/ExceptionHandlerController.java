@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import uk.ac.ebi.tsc.aap.client.exception.InvalidJWTTokenException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Map;
@@ -43,5 +44,10 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   @ExceptionHandler(HttpClientErrorException.class)
   public ResponseEntity<Object> handleHttpClientErrorException(HttpClientErrorException ex)  {
     return new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
+  }
+
+  @ExceptionHandler(InvalidJWTTokenException.class)
+  public ResponseEntity<Object> handleInvalidJWTTokenException(InvalidJWTTokenException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 }
