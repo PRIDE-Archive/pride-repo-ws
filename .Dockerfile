@@ -9,7 +9,7 @@ COPY pom.xml ./
 RUN mvn clean package -DskipTests -DjarFinalName=${JAR_FILE_NAME}
 
 # Package stage
-FROM maven:3.3.9-jdk-8-alpine
+FROM openjdk:8-alpine3.9
 WORKDIR /app
 COPY --from=build-env /app/target/${JAR_FILE_NAME}.jar ./
 COPY ${APM_AGENT_JAR} ./
