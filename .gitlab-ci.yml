@@ -21,8 +21,12 @@ docker_build:
   services:
     - docker:18.09-dind
   script:
-    - apk add --update bash gettext tzdata coreutils
-    - envsubst '${JAR_FILE_NAME} ${APM_AGENT_URL} ${APM_AGENT_JAR} ${app_name} ${APM_PACKAGE} ${APM_SERVER}' < .Dockerfile > Dockerfile
+    - apk add --update bash gettext tzdata coreutils ca-certificates wget
+    - update-ca-certificates
+    - wget -o ${APM_AGENT_JAR} ${APM_AGENT_URL}
+    - ls
+    - envsubst '${JAR_FILE_NAME} ${APM_AGENT_JAR} ${app_name} ${APM_PACKAGE} ${APM_SERVER}' < .Dockerfile > Dockerfile
+    - cat Dockerfile
     - docker info
     - docker build -t $IMAGE .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
