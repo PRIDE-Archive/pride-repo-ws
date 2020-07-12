@@ -47,6 +47,7 @@ spec:
       containers:
         - name: $app_name
           image: $IMAGE
+          imagePullPolicy: Always
           ports:
             - containerPort: $port
           volumeMounts:
