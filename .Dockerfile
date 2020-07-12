@@ -13,6 +13,5 @@ FROM openjdk:8-alpine3.9
 WORKDIR /app
 COPY --from=build-env /app/target/${JAR_FILE_NAME}.jar ./
 COPY ${APM_AGENT_JAR} ./
-ENV APM_AGENT_OPTS="-javaagent:${APM_AGENT_JAR} -Delastic.apm.service_name=${app_name} -Delastic.apm.application_packages=${APM_PACKAGE} -Delastic.apm.server_urls=${APM_SERVER}"
 
 ENTRYPOINT java ${APM_AGENT_OPTS} ${JAVA_OPTS} -jar ${JAR_FILE_NAME}.jar
