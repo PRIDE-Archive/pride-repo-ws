@@ -117,14 +117,6 @@ spec:
         - name: $app_name-filebeat
           image: docker.elastic.co/beats/filebeat:7.8.0
           env:
-#            - name: HTTP_PROXY
-#              value: "$http_proxy_host:$http_proxy_port"
-#            - name: HTTPS_PROXY
-#              value: "$http_proxy_host:$http_proxy_port"
-#            - name: http_proxy
-#              value: "$http_proxy_host:$http_proxy_port"
-#            - name: https_proxy
-#              value: "$http_proxy_host:$http_proxy_port"
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
