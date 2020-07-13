@@ -18,6 +18,7 @@ import uk.ac.ebi.pride.archive.repo.models.user.Credentials;
 import uk.ac.ebi.pride.archive.repo.models.user.User;
 import uk.ac.ebi.pride.archive.repo.models.user.UserProfile;
 import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
+import uk.ac.ebi.pride.archive.repo.ws.exception.UserExistsException;
 import uk.ac.ebi.pride.archive.repo.ws.service.UserService;
 import uk.ac.ebi.pride.archive.repo.ws.utils.AapJwtToken;
 import uk.ac.ebi.pride.archive.repo.ws.validators.UpdateProfileValidator;
@@ -58,6 +59,9 @@ public class UserProfileController {
         try {
             User user = userService.signUp(userSummary);
             return ResponseEntity.ok(user);
+        } catch (UserExistsException userExistsException) {
+            log.error(userExistsException.getMessage(), userExistsException);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(userExistsException.getMessage());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

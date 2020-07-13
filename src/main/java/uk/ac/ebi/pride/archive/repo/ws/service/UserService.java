@@ -83,7 +83,7 @@ public class UserService {
             userRepository.save(user);
             user.setPasswordOriginal(password);
             return user;
-        } catch (UserModificationException | UserExistsException ue) {
+        } catch (UserExistsException ue) {
             String email = userSummary.getEmail();
             String msg = "Failed to create a new user in AAP: " + email;
             log.error(msg, ue);
