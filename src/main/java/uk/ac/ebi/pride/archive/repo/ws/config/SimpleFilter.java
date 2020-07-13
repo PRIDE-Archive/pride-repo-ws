@@ -21,7 +21,8 @@ public class SimpleFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (!request.getRequestURL().toString().contains("actuator/")) {
+        String url = request.getRequestURL().toString();
+        if (!url.contains("/actuator") && !url.contains("/api-docs") && !url.contains("/swagger-ui")) {
             String msg = "RequestURL: " + request.getServletPath();
             String appName = request.getHeader("app");
             if (appName != null) {
