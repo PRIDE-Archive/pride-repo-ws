@@ -46,7 +46,6 @@ kube_deploy_prod_hx:
   image: dtzar/helm-kubectl
   script:
     - apk add --update bash gettext tzdata coreutils
-    - env
     - export HOSTNAME_BCKUP=$HOSTNAME && export HOSTNAME='${HOSTNAME}'
     - envsubst < config/.application.yml > config/application.yml
     - envsubst < .filebeat.yml > filebeat.yml
