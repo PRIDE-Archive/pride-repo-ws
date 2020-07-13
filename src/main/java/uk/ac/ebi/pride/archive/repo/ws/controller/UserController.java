@@ -23,22 +23,22 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/findAllProjectsById/{id}")
-    public List<ProjectSummary> findAllProjectsById(@PathVariable Long id) throws Exception {
+    public List<ProjectSummary> findAllProjectsById(@PathVariable Long id) {
         return userService.findAllProjectsById(id);
     }
 
     @GetMapping("/findAllByProjectId/{id}")
-    public List<User> findAllByProjectId(@PathVariable Long id) throws Exception {
+    public List<User> findAllByProjectId(@PathVariable Long id) {
         return userService.findAllByProjectId(id);
     }
 
     @GetMapping("/findByEmail/{email}")
-    public User findByEmail(@PathVariable String email) throws Exception {
+    public User findByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
     }
 
     @PostMapping("/save")
-    public User save(@RequestBody User user) throws Exception {
+    public User save(@RequestBody User user) {
         return userService.save(user);
     }
 
@@ -47,8 +47,8 @@ public class UserController {
         return userService.findUsersNotInAAP();
     }
 
-    @GetMapping("/findByUserRef")
-    public User findByUserRef(String userRef) {
+    @GetMapping("/findByUserRef/{userRef}")
+    public User findByUserRef(@PathVariable String userRef) {
         return userService.findByUserRef(userRef);
     }
 

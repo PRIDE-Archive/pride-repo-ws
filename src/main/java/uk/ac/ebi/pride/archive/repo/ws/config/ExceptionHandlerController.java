@@ -19,35 +19,35 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-  @Bean
-  public ErrorAttributes errorAttributes() {
-    // Hide exception field in the return object
-    return new DefaultErrorAttributes() {
-      @Override
-      public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
-        Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace);
-        errorAttributes.remove("exception");
-        return errorAttributes;
-      }
-    };
-  }
+    @Bean
+    public ErrorAttributes errorAttributes() {
+        // Hide exception field in the return object
+        return new DefaultErrorAttributes() {
+            @Override
+            public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
+                Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace);
+                errorAttributes.remove("exception");
+                return errorAttributes;
+            }
+        };
+    }
 
-  @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<Object> constraintViolationException(ConstraintViolationException ex) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> constraintViolationException(ConstraintViolationException ex) {
 
-    String s = ex.getConstraintViolations().stream()
-            .map(o -> o.getMessage() + ": " + o.getInvalidValue()).collect(Collectors.joining("\n"));
+        String s = ex.getConstraintViolations().stream()
+                .map(o -> o.getMessage() + ": " + o.getInvalidValue()).collect(Collectors.joining("\n"));
 
-    return new ResponseEntity<>(s, HttpStatus.BAD_REQUEST);
-  }
+        return new ResponseEntity<>(s, HttpStatus.BAD_REQUEST);
+    }
 
-  @ExceptionHandler(HttpClientErrorException.class)
-  public ResponseEntity<Object> handleHttpClientErrorException(HttpClientErrorException ex)  {
-    return new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
-  }
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<Object> handleHttpClientErrorException(HttpClientErrorException ex) {
+        return new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
+    }
 
-  @ExceptionHandler(InvalidJWTTokenException.class)
-  public ResponseEntity<Object> handleInvalidJWTTokenException(InvalidJWTTokenException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-  }
+    @ExceptionHandler(InvalidJWTTokenException.class)
+    public ResponseEntity<Object> handleInvalidJWTTokenException(InvalidJWTTokenException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

@@ -94,8 +94,8 @@ public class UserProfileController {
             if (!aapJwtToken.getEmail().equalsIgnoreCase(userProfile.getEmail())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email mismatch occurred");
             }
-            userService.updateProfile(jwtToken, aapJwtToken.getEmail(), userProfile);
-            return ResponseEntity.ok().build();
+            boolean isModified = userService.updateProfile(jwtToken, aapJwtToken.getEmail(), userProfile);
+            return ResponseEntity.ok(isModified);
         } catch (InvalidJWTTokenException e) {
             log.error(e.getMessage(), e);
             throw e;
@@ -106,7 +106,7 @@ public class UserProfileController {
     }
 
     @RequestMapping(path = "getAAPToken", method = RequestMethod.POST)
-    public String getAAPToken(@RequestBody @Valid Credentials credentials) throws Exception {
+    public String getAAPToken(@RequestBody @Valid Credentials credentials) {
         ResponseEntity<String> response = null;
         String jwtToken = null;
         try {
