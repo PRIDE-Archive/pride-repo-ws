@@ -131,7 +131,7 @@ public class UserService {
     }
 
 
-    private void setCreationAndUpdateDate(User user) {
+    public static void setCreationAndUpdateDate(User user) {
         Date currentDate = Calendar.getInstance().getTime();
         user.setCreateAt(currentDate);
         user.setUpdateAt(currentDate);
@@ -203,25 +203,6 @@ public class UserService {
         return userRepository.findByUserRef(userRef);
     }
 
-    private User mapToPersistableUser(UserSummary userSummary) {
-        User prideUser = new User();
-        prideUser.setEmail(userSummary.getEmail());
-        prideUser.setPassword(userSummary.getPassword());
-        prideUser.setUserRef(userSummary.getUserRef());
-        prideUser.setTitle(userSummary.getTitle());
-        prideUser.setFirstName(userSummary.getFirstName());
-        prideUser.setLastName(userSummary.getLastName());
-        prideUser.setAffiliation(userSummary.getAffiliation());
-        prideUser.setCountry(userSummary.getCountry());
-        prideUser.setOrcid(userSummary.getOrcid());
-        prideUser.setAcceptedTermsOfUse(userSummary.getAcceptedTermsOfUse() ? 1 : 0);
-        prideUser.setAcceptedTermsOfUseAt(userSummary.getAcceptedTermsOfUseAt());
-        Set<RoleConstants> authorities = new HashSet<>();
-        authorities.add(RoleConstants.SUBMITTER); // can only create submitter
-        prideUser.setUserAuthorities(authorities);
-        return prideUser;
-    }
-
     @Transactional
     public User createReviewerAccount(String projectAccession) {
 
@@ -264,6 +245,7 @@ public class UserService {
         return REVIEWER + RandomStringUtils.random(REVIEWER_LENGTH, false, true) + EBI_DOMAIN;
     }*/
 
+    @Transactional
     public boolean updateProfile(String token, String currentUserEmail, UserProfile updateUser) {
         User currentUser = userRepository.findByEmail(currentUserEmail);
         UserSummary oldUserSumary = ObjectMapper.mapUserToUserSummary(currentUser);

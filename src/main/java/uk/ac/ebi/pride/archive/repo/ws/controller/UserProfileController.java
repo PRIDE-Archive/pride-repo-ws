@@ -29,6 +29,8 @@ import javax.validation.Valid;
 import java.nio.charset.Charset;
 import java.util.Date;
 
+import static uk.ac.ebi.pride.archive.repo.ws.service.UserService.setCreationAndUpdateDate;
+
 @RestController
 @Validated
 @RequestMapping("/user/profile/")
@@ -70,7 +72,7 @@ public class UserProfileController {
     }
 
     @PostMapping(path = "/view-profile", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getProfile(@RequestHeader String authorization) {
+    public ResponseEntity<Object> getProfile(@RequestHeader("Authorization") String authorization) {
         try {
             String jwtToken = authorization.split(" ")[1];
             AapJwtToken aapJwtToken = getDecodedAAPtokenValue(jwtToken);
@@ -86,8 +88,8 @@ public class UserProfileController {
     }
 
     @PostMapping(path = "/update-profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateProfile(@RequestBody @Valid UserProfile userProfile,
-                                                @RequestHeader String authorization,
+    public ResponseEntity<Object> updateProfile(@RequestHeader("Authorization") String authorization,
+                                                @RequestBody @Valid UserProfile userProfile,
                                                 BindingResult errors) {
         if (errors.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors.getAllErrors());
@@ -136,7 +138,9 @@ public class UserProfileController {
                     userSummary.setAffiliation(" ");
                     userSummary.setAcceptedTermsOfUse(true);
                     userSummary.setAcceptedTermsOfUseAt(new Date());
-                    uk.ac.ebi.pride.archive.repo.models.user.User user = userService.signUp(userSummary);
+                    uk.ac.ebi.pride.archive.repo.models.user.User user = uk.ac.ebi.pride.archive.repo.util.ObjectMapper.mapUserSummaryToUser(userSummary);
+                    setCreationAndUpdateDate(user);
+                    userService.save(user);
 
                     //Add user to submitter domain in AAP
                     log.info("Begin user domain registeration: " + userSummary.getEmail());
@@ -154,7 +158,7 @@ public class UserProfileController {
         } catch (HttpClientErrorException e) {
             String error = "username/password wrong. Please check username or password to get token";
             log.error(error);
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, error);
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, error, error.getBytes(), Charset.defaultCharset());
         } catch (Exception e) {
             throw new RuntimeException("Error while getting AAP token", e);
         }
