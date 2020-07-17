@@ -5,6 +5,9 @@ server:
   servlet.contextPath: $contextPath
 
 management:
+  endpoint.health:
+    show-details: always
+    show-components: always
   endpoints.web.exposure:
     include: $actuator_include
     exclude: $actuator_exclude
