@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.ac.ebi.pride.archive.dataprovider.utils.TitleConstants;
-import uk.ac.ebi.pride.archive.repo.models.user.Credentials;
-import uk.ac.ebi.pride.archive.repo.models.user.User;
-import uk.ac.ebi.pride.archive.repo.models.user.UserProfile;
-import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
+import uk.ac.ebi.pride.archive.repo.models.user.*;
 import uk.ac.ebi.pride.archive.repo.ws.exception.UserExistsException;
 import uk.ac.ebi.pride.archive.repo.ws.service.UserService;
 import uk.ac.ebi.pride.archive.repo.ws.utils.AapJwtToken;
@@ -177,6 +174,11 @@ public class UserProfileController {
             log.error(ex.getMessage(), ex);
             throw new InvalidJWTTokenException("Error parsing token");
         }
+    }
+
+    @PostMapping(path = "/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPassword resetPassword) {
+        return userService.resetPassword(resetPassword);
     }
 
     private static HttpHeaders createHttpHeaders(String username, String password) {

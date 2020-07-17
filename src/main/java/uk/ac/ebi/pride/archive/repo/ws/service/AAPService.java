@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import uk.ac.ebi.pride.archive.repo.models.user.ResetPassword;
 import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
 import uk.ac.ebi.pride.archive.repo.util.AAPConstants;
 import uk.ac.ebi.tsc.aap.client.model.Profile;
@@ -161,6 +163,23 @@ public class AAPService {
             log.error(e.getMessage(), e);
             return false;
         }
+    }
+
+    public ResponseEntity<String> resetPassword(ResetPassword payload) {
+        ResponseEntity<String> responseEntity;
+        try {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            HttpEntity entity = new HttpEntity(payload, httpHeaders);
+            restTemplate = new RestTemplate();
+            responseEntity = restTemplate.exchange(aapResetUrl, HttpMethod.PUT, entity, String.class);
+        } catch (HttpClientErrorException e) {
+            responseEntity = new ResponseEntity<>(e.getResponseBodyAsString(), e.getStatusCode());
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
     }
 
     /*public Profile getMyProfile(String token) {

@@ -3,6 +3,7 @@ package uk.ac.ebi.pride.archive.repo.ws.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -12,10 +13,7 @@ import uk.ac.ebi.pride.archive.dataprovider.utils.RoleConstants;
 import uk.ac.ebi.pride.archive.dataprovider.utils.TitleConstants;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
 import uk.ac.ebi.pride.archive.repo.models.project.ProjectSummary;
-import uk.ac.ebi.pride.archive.repo.models.user.User;
-import uk.ac.ebi.pride.archive.repo.models.user.UserAAP;
-import uk.ac.ebi.pride.archive.repo.models.user.UserProfile;
-import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
+import uk.ac.ebi.pride.archive.repo.models.user.*;
 import uk.ac.ebi.pride.archive.repo.util.AAPConstants;
 import uk.ac.ebi.pride.archive.repo.util.ObjectMapper;
 import uk.ac.ebi.pride.archive.repo.util.PasswordUtilities;
@@ -129,7 +127,6 @@ public class UserService {
     public boolean addUserToAAPDomain(User user) {
         return aapService.addUserToAAPDomain(user.getUserRef(), AAPConstants.PRIDE_SUBMITTER_DOMAIN);
     }
-
 
     public static void setCreationAndUpdateDate(User user) {
         Date currentDate = Calendar.getInstance().getTime();
@@ -313,10 +310,7 @@ public class UserService {
                 throw new UserAccessException(msg, ex, oldUserSumary.getEmail());
             }
         }
-
         return isModified;
-
-
     }
 
     private boolean isModified(Object oldVal, Object newVal) {
@@ -342,12 +336,19 @@ public class UserService {
         }
     }
 
-    public User updateLocalPassword(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        user.setPassword(password);
-        return userRepository.save(user);
+    public ResponseEntity<String> resetPassword(ResetPassword resetPassword) {
+        ResponseEntity<String> responseEntity = aapService.resetPassword(resetPassword);
+        updateLocalPassword(resetPassword.getUsername(), resetPassword.getPassword());
+        return responseEntity;
     }
 
+    public void updateLocalPassword(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setPassword(password);
+            userRepository.save(user);
+        }
+    }
 
 }
 
