@@ -189,7 +189,6 @@ public class UserService {
         }
     }
 
-
     @Transactional
     public List<User> findUsersNotInAAP() {
         return userRepository.findUsersNotInAAP();

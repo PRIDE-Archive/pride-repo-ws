@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import uk.ac.ebi.pride.archive.repo.models.user.ResetPassword;
 import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
 import uk.ac.ebi.pride.archive.repo.util.AAPConstants;
-import uk.ac.ebi.tsc.aap.client.model.Profile;
 
 import java.nio.charset.Charset;
 import java.util.Collections;
@@ -88,18 +87,6 @@ public class AAPService {
         return headers;
     }
 
-    /*private HttpHeaders createChangePwdHeaders(String username, String password) {
-        HttpHeaders headers = new HttpHeaders();
-        String auth = username + ":" + password;
-        byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(Charset.forName("UTF-8")));
-        String authHeader = "Basic " + new String(encodedAuth);
-        headers.add("Authorization", authHeader);
-        headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON_UTF8);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
-        return headers;
-    }*/
-
     public String getAAPToken() {
         ResponseEntity<String> responseEntity = restTemplate.exchange(aapAuthURL + "?ttl=180", HttpMethod.GET, new HttpEntity(createBasicAuthHeaders(aapUname, aapPwd)), String.class);
         log.info("getAAPToken() Status:" + responseEntity.getStatusCode());
@@ -142,17 +129,6 @@ public class AAPService {
         }
     }
 
-    /*protected boolean changeAAPPassword(String userReference, ChangePassword changePassword) {
-        String changePwdJson = "{\"password\" : \"" + changePassword.getNewPassword() + "\"}";
-        try {
-            ResponseEntity<String> responseEntity = restTemplate.exchange(aapAuthURL + "?_method=patch", HttpMethod.POST, new HttpEntity(changePwdJson, createChangePwdHeaders(changePassword.getEmail(), changePassword.getOldPassword())), String.class);
-            return responseEntity.getStatusCode().is2xxSuccessful();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return false;
-        }
-    }*/
-
     public boolean updateUserData(String token, String userReference, UserSummary userSummary) {
         String org = userSummary.getAffiliation().substring(0, userSummary.getAffiliation().length() <= 255 ? userSummary.getAffiliation().length() : 255);//AAP limits org size to 255bytes
         String updateUserRegJSON = "{\"username\" : \"" + userSummary.getEmail() + "\",     \"email\" : \"" + userSummary.getEmail() + "\",     \"name\" : \"" + userSummary.getFirstName() + " " + userSummary.getLastName() + "\",     \"organisation\" : \"" + org + "\"}";
@@ -181,9 +157,4 @@ public class AAPService {
         }
         return responseEntity;
     }
-
-    /*public Profile getMyProfile(String token) {
-        ResponseEntity<Profile> responseEntity = restTemplate.exchange(aapAuthURL + "/my/profile", HttpMethod.GET, new HttpEntity(frameUserAuthToken(token)), Profile.class);
-        return responseEntity.getBody();
-    }*/
 }
