@@ -337,7 +337,9 @@ public class UserService {
 
     public ResponseEntity<String> resetPassword(ResetPassword resetPassword) {
         ResponseEntity<String> responseEntity = aapService.resetPassword(resetPassword);
-        updateLocalPassword(resetPassword.getUsername(), resetPassword.getPassword());
+        if(responseEntity.getStatusCode().is2xxSuccessful()) {
+            updateLocalPassword(resetPassword.getUsername(), resetPassword.getPassword());
+        }
         return responseEntity;
     }
 
@@ -349,5 +351,22 @@ public class UserService {
         }
     }
 
+    public UserSummary changePassword(ChangePassword changePassword, String userReference) throws Exception {
+        User user = userRepository.findByUserRef(userReference);
+        user.setPassword(changePassword.getNewPassword());
+        //update in aap
+        boolean isChangeSuccessful = aapService.changeAAPPassword(changePassword);
+        if (isChangeSuccessful) {
+            //update in pride
+            user = userRepository.save(user);
+            UserSummary userSummary = new UserSummary();
+            userSummary.setEmail(user.getEmail());
+            userSummary.setFirstName(user.getFirstName());
+            userSummary.setLastName(user.getLastName());
+            return userSummary;
+        } else {
+            throw new Exception("Failed to update pwd in AAP");
+        }
+    }
 }
 

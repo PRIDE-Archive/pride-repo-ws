@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import uk.ac.ebi.pride.archive.repo.models.user.ChangePassword;
 import uk.ac.ebi.pride.archive.repo.models.user.ResetPassword;
 import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
 import uk.ac.ebi.pride.archive.repo.util.AAPConstants;
@@ -127,6 +128,29 @@ public class AAPService {
         } else {
             return true;
         }
+    }
+
+    protected boolean changeAAPPassword(ChangePassword changePassword) {
+        String changePwdJson = "{\"password\" : \"" + changePassword.getNewPassword() + "\"}";
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.exchange(aapAuthURL + "?_method=patch", HttpMethod.POST, new HttpEntity(changePwdJson, createChangePwdHeaders(changePassword.getEmail(), changePassword.getOldPassword())), String.class);
+            return responseEntity.getStatusCode().is2xxSuccessful();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private HttpHeaders createChangePwdHeaders(String username, String password) {
+        HttpHeaders headers = new HttpHeaders();
+        String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(Charset.forName("UTF-8")));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.add("Authorization", authHeader);
+        headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON_UTF8);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
+        return headers;
     }
 
     public boolean updateUserData(String token, String userReference, UserSummary userSummary) {

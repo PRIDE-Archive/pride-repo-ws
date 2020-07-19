@@ -18,6 +18,7 @@ import uk.ac.ebi.pride.archive.repo.models.user.*;
 import uk.ac.ebi.pride.archive.repo.ws.exception.UserExistsException;
 import uk.ac.ebi.pride.archive.repo.ws.service.UserService;
 import uk.ac.ebi.pride.archive.repo.ws.utils.AapJwtToken;
+import uk.ac.ebi.pride.archive.repo.ws.validators.ChangePasswordValidator;
 import uk.ac.ebi.pride.archive.repo.ws.validators.UpdateProfileValidator;
 import uk.ac.ebi.pride.archive.repo.ws.validators.UserRegistrationValidator;
 import uk.ac.ebi.tsc.aap.client.exception.InvalidJWTTokenException;
@@ -42,11 +43,17 @@ public class UserProfileController {
 
     private UpdateProfileValidator updateProfileValidator;
 
+    private ChangePasswordValidator changePasswordValidator;
+
     private UserService userService;
 
-    public UserProfileController(UserRegistrationValidator userRegistrationValidator, UpdateProfileValidator updateProfileValidator, UserService userService) {
+    public UserProfileController(UserRegistrationValidator userRegistrationValidator,
+                                 UpdateProfileValidator updateProfileValidator,
+                                 ChangePasswordValidator changePasswordValidator,
+                                 UserService userService) {
         this.userRegistrationValidator = userRegistrationValidator;
         this.updateProfileValidator = updateProfileValidator;
+        this.changePasswordValidator = changePasswordValidator;
         this.userService = userService;
     }
 
@@ -176,6 +183,28 @@ public class UserProfileController {
         }
     }
 
+    @PostMapping(path = "/change-password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> changePassword(@RequestHeader("Authorization") String authorization,
+                                                 @RequestBody @Valid ChangePassword changePassword,
+                                                 BindingResult errors) {
+        if (errors.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors.getAllErrors());
+        }
+        try {
+            String jwtToken = authorization.split(" ")[1];
+            AapJwtToken aapJwtToken = getDecodedAAPtokenValue(jwtToken);
+            if (!aapJwtToken.getEmail().equalsIgnoreCase(changePassword.getEmail())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email mismatch occurred");
+            }
+
+            UserSummary user = userService.changePassword(changePassword, aapJwtToken.getAapRef());
+            return ResponseEntity.ok(user);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
+    }
+
     @PostMapping(path = "/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPassword resetPassword) {
         return userService.resetPassword(resetPassword);
@@ -190,6 +219,11 @@ public class UserProfileController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", authHeader);
         return headers;
+    }
+
+    @InitBinder("changePassword")
+    protected void initBinderChangePassword(WebDataBinder binder) {
+        binder.setValidator(changePasswordValidator);
     }
 
     @InitBinder("userProfile")
