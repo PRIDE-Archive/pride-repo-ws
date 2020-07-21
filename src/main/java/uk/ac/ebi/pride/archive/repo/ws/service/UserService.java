@@ -54,7 +54,7 @@ public class UserService {
         this.aapService = aapService;
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public User signUp(UserSummary userSummary) throws UserExistsException, UserModificationException {
         Assert.notNull(userSummary, "New user cannot be empty");
         log.info("Entered registerNewUser : " + userSummary.getEmail());
@@ -94,7 +94,7 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public User registerWithAAP(UserSummary userSummary) throws UserExistsException, UserModificationException {
         try {
             UserAAP userAAP = new UserAAP();
@@ -189,12 +189,12 @@ public class UserService {
         }
     }
 
-    @Transactional
+
     public List<User> findUsersNotInAAP() {
         return userRepository.findUsersNotInAAP();
     }
 
-    @Transactional
+
     public User findByUserRef(String userRef) {
         return userRepository.findByUserRef(userRef);
     }
@@ -335,6 +335,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public ResponseEntity<String> resetPassword(ResetPassword resetPassword) {
         ResponseEntity<String> responseEntity = aapService.resetPassword(resetPassword);
         if(responseEntity.getStatusCode().is2xxSuccessful()) {
@@ -343,6 +344,7 @@ public class UserService {
         return responseEntity;
     }
 
+    @Transactional
     public void updateLocalPassword(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
@@ -351,6 +353,8 @@ public class UserService {
         }
     }
 
+
+    @Transactional
     public UserSummary changePassword(ChangePassword changePassword, String userReference) throws Exception {
         User user = userRepository.findByUserRef(userReference);
         user.setPassword(changePassword.getNewPassword());
