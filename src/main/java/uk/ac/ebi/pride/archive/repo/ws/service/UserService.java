@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.archive.repo.ws.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,12 @@ import uk.ac.ebi.pride.archive.dataprovider.utils.RoleConstants;
 import uk.ac.ebi.pride.archive.dataprovider.utils.TitleConstants;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
 import uk.ac.ebi.pride.archive.repo.models.project.ProjectSummary;
-import uk.ac.ebi.pride.archive.repo.models.user.*;
+import uk.ac.ebi.pride.archive.repo.models.user.ChangePassword;
+import uk.ac.ebi.pride.archive.repo.models.user.ResetPassword;
+import uk.ac.ebi.pride.archive.repo.models.user.User;
+import uk.ac.ebi.pride.archive.repo.models.user.UserAAP;
+import uk.ac.ebi.pride.archive.repo.models.user.UserProfile;
+import uk.ac.ebi.pride.archive.repo.models.user.UserSummary;
 import uk.ac.ebi.pride.archive.repo.util.AAPConstants;
 import uk.ac.ebi.pride.archive.repo.util.ObjectMapper;
 import uk.ac.ebi.pride.archive.repo.util.PasswordUtilities;
@@ -23,7 +29,12 @@ import uk.ac.ebi.pride.archive.repo.ws.exception.UserModificationException;
 import uk.ac.ebi.pride.archive.repo.ws.repository.ProjectRepository;
 import uk.ac.ebi.pride.archive.repo.ws.repository.UserRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -78,9 +89,10 @@ public class UserService {
                 log.error("Error creating user and getting user ref for email:" + user.getEmail());
             }
             setCreationAndUpdateDate(user);
-            userRepository.save(user);
-            user.setPasswordOriginal(password);
-            return user;
+            user = save(user);
+            User plainPasswordUser = copyNewUser(user);
+            plainPasswordUser.setPasswordOriginal(password);
+            return plainPasswordUser;
         } catch (UserExistsException ue) {
             String email = userSummary.getEmail();
             String msg = "Failed to create a new user in AAP: " + email;
@@ -92,6 +104,10 @@ public class UserService {
             log.error(msg, e);
             throw new UserModificationException(msg, e, email);
         }
+    }
+
+    private User copyNewUser(User user) {
+        return SerializationUtils.clone(user);
     }
 
     @Transactional
