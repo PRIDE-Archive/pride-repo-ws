@@ -141,7 +141,21 @@ public class UserService {
     }
 
     public boolean addUserToAAPDomain(User user) {
-        return aapService.addUserToAAPDomain(user.getUserRef(), AAPConstants.PRIDE_SUBMITTER_DOMAIN);
+        boolean success = false;
+        for (RoleConstants userAuthority : user.getUserAuthorities()) {
+            switch (userAuthority) {
+                case ADMINISTRATOR:
+                    success = aapService.addUserToAAPDomain(user.getUserRef(), AAPConstants.PRIDE_ADMINISTRATOR_DOMAIN);
+                    break;
+                case SUBMITTER:
+                    success = aapService.addUserToAAPDomain(user.getUserRef(), AAPConstants.PRIDE_SUBMITTER_DOMAIN);
+                    break;
+                case REVIEWER:
+                    success = aapService.addUserToAAPDomain(user.getUserRef(), AAPConstants.PRIDE_REVIEWER_DOMAIN);
+                    break;
+            }
+        }
+        return success;
     }
 
     public static void setCreationAndUpdateDate(User user) {
@@ -218,7 +232,7 @@ public class UserService {
     @Transactional
     public User createReviewerAccount(String projectAccession) {
 
-        String reviewerEmail = REVIEWER + "_" + projectAccession.toLowerCase();
+        String reviewerEmail = REVIEWER + "_" + projectAccession.toLowerCase() + "@ebi.ac.uk";
         User user = userRepository.findByEmail(reviewerEmail);
         if (user != null) {
             user.setPasswordOriginal(reviewerPasswordMessage);
