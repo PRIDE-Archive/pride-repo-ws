@@ -42,7 +42,8 @@ public class SubmissionService {
 
         final Project project = submissionDto.getProject();
         final List<Assay> assays = submissionDto.getAssays();
-        final Map<ProjectFile, String> projectFilesMap = submissionDto.getProjectFilesMap();
+        final Set<ProjectFile> projectFiles = submissionDto.getProjectFiles();
+        final Map<String, String> projectFilesAssayMap = submissionDto.getProjectFilesAssayMap();
 
         Map<String, CvParam> allParams = new HashMap<>();
         try {
@@ -60,7 +61,7 @@ public class SubmissionService {
             }
 
             // persist project related files
-            persistFiles(projectSaved, assaysSaved, projectFilesMap);
+            persistFiles(projectSaved, assaysSaved, projectFiles, projectFilesAssayMap);
 
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -97,11 +98,11 @@ public class SubmissionService {
 
     private void persistFiles(final Project project,
                               final List<Assay> assays,
-                              final Map<ProjectFile, String> projectFilesMap) {
+                              final Set<ProjectFile> projectFiles,
+                              final Map<String, String> projectFilesAssayMap) {
 
-        for (Map.Entry<ProjectFile, String> projectFileEntry : projectFilesMap.entrySet()) {
-            String assayAccession = projectFileEntry.getValue();
-            ProjectFile projectFile = projectFileEntry.getKey();
+        for (ProjectFile projectFile : projectFiles) {
+            String assayAccession = projectFilesAssayMap.get(projectFile.getFileSource() + projectFile.getFileName());
 
             // set project id
             projectFile.setProjectId(project.getId());
