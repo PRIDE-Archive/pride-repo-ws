@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import uk.ac.ebi.pride.archive.repo.models.accession.PrideAccession;
 import uk.ac.ebi.pride.archive.repo.models.accession.PrideAccessions;
 import uk.ac.ebi.pride.archive.repo.ws.exception.AccessionUpdateException;
@@ -24,9 +23,6 @@ public class AccessionService {
 
     @Autowired
     public AccessionService(AccessionRepository accessionRepository) {
-
-        Assert.notNull(accessionRepository, "Pride R accession dao cannot be null");
-
         this.accessionRepository = accessionRepository;
     }
 
@@ -58,7 +54,8 @@ public class AccessionService {
     @Transactional
     public Long reserveId(String entity, int numIds) {
 
-        Long lastUsedId = accessionRepository.findLastIdByEntity(entity);
+        PrideAccession prideAccession = accessionRepository.findByEntity(entity);
+        Long lastUsedId = prideAccession.getLastId();
 
         if (lastUsedId == null) {
             lastUsedId = 0L;
@@ -76,7 +73,8 @@ public class AccessionService {
 
         PrideAccessions accessions = new PrideAccessions();
 
-        long lastAccession = accessionRepository.findLastIdByEntity(type + SEPARATOR + mode);
+        PrideAccession prideAccession = accessionRepository.findByEntity(type + SEPARATOR + mode);
+        Long lastAccession = prideAccession.getLastId();
 
         // accession formatter
         AccessionFormatter accessionFormatter = mode.equals(AccessionUpdateMode.PRODUCTION) ?
