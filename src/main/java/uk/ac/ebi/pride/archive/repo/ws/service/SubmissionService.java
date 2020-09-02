@@ -56,7 +56,9 @@ public class SubmissionService {
 
             List<Assay> assaysSaved = null;
             //persist assays
-            if (!assays.isEmpty()) {
+            if (assays.isEmpty()) {
+                assaysSaved = new ArrayList<>(); //empty list
+            } else {
                 assaysSaved = persistAssays(projectSaved, assays, allParams);
             }
 
