@@ -5,11 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import uk.ac.ebi.pride.archive.repo.models.project.ProjectSummary;
 import uk.ac.ebi.pride.archive.repo.models.user.User;
 import uk.ac.ebi.pride.archive.repo.ws.service.UserService;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -22,9 +22,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/findAllProjectAccessionByUserId/{userId}")
-    public List<String> findAllProjectAccessionByUserId(@PathVariable Long userId) {
-        return userService.findAllProjectAccessionByUserId(userId);
+    @GetMapping("/findAllPrivateProjectAccessionsByUserId/{userId}")
+    public Set<String> findAllPrivateProjectAccessionsByUserId(@PathVariable Long userId) {
+        return userService.findAllPrivateProjectAccessionsByUserId(userId);
     }
 
     @GetMapping("/findAllByProjectId/{projectId}")
