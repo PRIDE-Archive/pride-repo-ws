@@ -18,8 +18,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
   Project findByAccession(String projectAccession);
 
-  @Query("select p from Project p where p.submitter.id = ?1")
-  List<Project> findAllBySubmitterId(Long submitterId);
+  @Query("select p.accession from Project p where p.submitter.id = ?1")
+  List<String> findAllAccessionsBySubmitterId(Long submitterId);
 
   @Query("select p from Project p where p.submitter.id = ?1 and p.publicProject = ?2")
   List<Project> findFilteredBySubmitterIdAndIsPublic(Long submitterId, Boolean isPublic);

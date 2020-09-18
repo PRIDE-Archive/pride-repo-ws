@@ -22,9 +22,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/findAllProjectsById/{userId}")
-    public List<ProjectSummary> findAllProjectsById(@PathVariable Long userId) {
-        return userService.findAllProjectsById(userId);
+    @GetMapping("/findAllProjectAccessionByUserId/{userId}")
+    public List<String> findAllProjectAccessionByUserId(@PathVariable Long userId) {
+        return userService.findAllProjectAccessionByUserId(userId);
     }
 
     @GetMapping("/findAllByProjectId/{projectId}")

@@ -189,18 +189,16 @@ public class UserService {
         }
     }
 
-    public List<ProjectSummary> findAllProjectsById(Long userId) throws UserAccessException {
-        List<ProjectSummary> projectSummaries = new ArrayList<>();
-        List<Project> ownedProjects =
-                projectRepository.findAllBySubmitterId(userId); // find the projects owned by the user
-        for (Project ownedProject : ownedProjects) {
-            projectSummaries.add(ObjectMapper.mapProjectToProjectSummary(ownedProject));
-        }
+    public List<String> findAllProjectAccessionByUserId(Long userId) throws UserAccessException {
+        List<String> projectAccessions = new ArrayList<>();
+        List<String> ownedProjects =
+                projectRepository.findAllAccessionsBySubmitterId(userId); // find the projects owned by the user
+            projectAccessions.addAll(ownedProjects);
         List<Project> accessibleProjects = userRepository.findAllProjectsById(userId);
         for (Project accessibleProject : accessibleProjects) {
-            projectSummaries.add(ObjectMapper.mapProjectToProjectSummary(accessibleProject));
+            projectAccessions.add(accessibleProject.getAccession());
         }
-        return projectSummaries;
+        return projectAccessions;
     }
 
     public List<User> findAllByProjectId(Long id) {
