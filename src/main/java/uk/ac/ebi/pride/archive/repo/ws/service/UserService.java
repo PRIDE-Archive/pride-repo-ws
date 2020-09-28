@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import uk.ac.ebi.pride.archive.dataprovider.utils.RoleConstants;
 import uk.ac.ebi.pride.archive.dataprovider.utils.TitleConstants;
 import uk.ac.ebi.pride.archive.repo.models.project.Project;
-import uk.ac.ebi.pride.archive.repo.models.project.ProjectSummary;
 import uk.ac.ebi.pride.archive.repo.models.user.ChangePassword;
 import uk.ac.ebi.pride.archive.repo.models.user.ResetPassword;
 import uk.ac.ebi.pride.archive.repo.models.user.User;
@@ -34,7 +33,10 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -189,18 +191,15 @@ public class UserService {
         }
     }
 
-    public List<ProjectSummary> findAllProjectsById(Long userId) throws UserAccessException {
-        List<ProjectSummary> projectSummaries = new ArrayList<>();
+    public Set<String> findAllPrivateProjectAccessionsByUserId(Long userId) throws UserAccessException {
+        Set<String> projectAccessions = new HashSet<>();
         List<Project> ownedProjects =
-                projectRepository.findAllBySubmitterId(userId); // find the projects owned by the user
-        for (Project ownedProject : ownedProjects) {
-            projectSummaries.add(ObjectMapper.mapProjectToProjectSummary(ownedProject));
-        }
+                projectRepository.findFilteredBySubmitterIdAndIsPublic(userId, false); // find the private projects owned by the user
+        projectAccessions.addAll(ownedProjects.stream().map(project -> project.getAccession()).collect(Collectors.toSet()));
         List<Project> accessibleProjects = userRepository.findAllProjectsById(userId);
-        for (Project accessibleProject : accessibleProjects) {
-            projectSummaries.add(ObjectMapper.mapProjectToProjectSummary(accessibleProject));
-        }
-        return projectSummaries;
+        projectAccessions.addAll(accessibleProjects.stream().filter(accessibleProject -> !accessibleProject.isPublicProject())
+                .map(accessibleProject -> accessibleProject.getAccession()).collect(Collectors.toList()));
+        return projectAccessions;
     }
 
     public List<User> findAllByProjectId(Long id) {

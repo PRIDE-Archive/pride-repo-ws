@@ -22,7 +22,7 @@
         <javadoc.opts>-Xdoclint:none</javadoc.opts>
         <skipTests>true</skipTests>
         <jarFinalName>pride-repo-ws</jarFinalName>
-        <pride-repo-commons>0.0.1-SNAPSHOT</pride-repo-commons>
+        <pride-repo-commons>1.1.0-SNAPSHOT</pride-repo-commons>
         <springdocOpenApi>1.4.1</springdocOpenApi>
         <lombokVersion>1.18.12</lombokVersion>
         <aapClientVersion>1.0.3-SNAPSHOT</aapClientVersion>
