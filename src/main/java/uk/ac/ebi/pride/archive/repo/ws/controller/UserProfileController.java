@@ -161,7 +161,7 @@ public class UserProfileController {
             }
         } catch (HttpClientErrorException e) {
             String error = "username/password wrong. Please check username or password to get token";
-            log.error(error);
+//            log.error(error);
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, error, error.getBytes(), Charset.defaultCharset());
         } catch (Exception e) {
             throw new RuntimeException("Error while getting AAP token", e);
