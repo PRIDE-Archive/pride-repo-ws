@@ -36,6 +36,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
   @Query("select p.accession from Project p where p.changed = 1")
   List<String> findAllAccessionsChanged();
 
-  @Query(value="select to_char(trunc(submission_date,'MM'),'MON-YY') MONTH ,count(*) from Project group by trunc(submission_date,'MM') order by trunc(submission_date,'MM') DESC",nativeQuery = true)
+  @Query(value="select TO_CHAR(date_trunc('month', submission_date),'MON-YY') AS MONTH, count(*) from Project group by date_trunc('month', submission_date) order by date_trunc('month', submission_date) DESC",nativeQuery = true)
   List<List<String>> findMonthlySubmissions();
 }
