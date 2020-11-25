@@ -14,6 +14,7 @@ import uk.ac.ebi.pride.archive.repo.ws.exception.AccessionUpdateException;
 import uk.ac.ebi.tsc.aap.client.exception.InvalidJWTTokenException;
 
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AccessionUpdateException.class)
     public ResponseEntity<Object> handleAccessionUpdateException(AccessionUpdateException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<Object> handleSqlException(SQLException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
