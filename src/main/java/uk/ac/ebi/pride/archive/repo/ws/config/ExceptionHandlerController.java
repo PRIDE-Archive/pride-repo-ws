@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.archive.repo.ws.config;
 
+import org.hibernate.exception.DataException;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
@@ -58,8 +59,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SQLException.class)
-    public ResponseEntity<Object> handleSqlException(SQLException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(DataException.class)
+    public ResponseEntity<Object> handleSqlException(DataException ex) {
+        return new ResponseEntity<>("SQl Exception " + ex.getSQLException().getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
