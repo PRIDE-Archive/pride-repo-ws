@@ -8,6 +8,8 @@ import org.springframework.util.Assert;
 import uk.ac.ebi.pride.archive.repo.models.ticket.Ticket;
 import uk.ac.ebi.pride.archive.repo.ws.repository.TicketRepository;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @Slf4j
@@ -34,5 +36,13 @@ public class TicketService {
     @Transactional(readOnly = false)
     public Ticket save(Ticket ticket) {
         return ticketRepository.save(ticket);
+    }
+
+    public List<Ticket> findByState(String state) {
+        return ticketRepository.findAllByState(Ticket.State.valueOf(state));
+    }
+
+    public void deleteById(String ticketId) {
+        ticketRepository.deleteById(ticketId);
     }
 }
